@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ubur-ubur Game Store</title>
+		<meta name="description" content="" />
+		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
+
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+		<!-- WEB FONTS : use %7C instead of | (pipe) -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+		<!-- CORE CSS -->
+		<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		
+		<!-- THEME CSS -->
+		<link href="<?php echo base_url(); ?>assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout.css" rel="stylesheet" type="text/css" />
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<link href="<?php echo base_url(); ?>assets/css/header-1.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+	</head>
+
+	<!--
+		AVAILABLE BODY CLASSES:
+		
+		smoothscroll 			= create a browser smooth scroll
+		enable-animation		= enable WOW animations
+
+		bg-grey					= grey background
+		grain-grey				= grey grain background
+		grain-blue				= blue grain background
+		grain-green				= green grain background
+		grain-blue				= blue grain background
+		grain-orange			= orange grain background
+		grain-yellow			= yellow grain background
+		
+		boxed 					= boxed layout
+		pattern1 ... patern11	= pattern background
+		menu-vertical-hide		= hidden, open on click
+		
+		BACKGROUND IMAGE [together with .boxed class]
+		data-background="<?php echo base_url(); ?>assets/images/_smarty/boxed_background/1.jpg"
+	-->
+	<body class="smoothscroll enable-animation">
+
+		<!-- wrapper -->
+		<div id="wrapper">
+		
+		
+			<?php 
+				//$data = array('nama_member'=>$nama_member);
+				$this->load->view("/front/top-bar.html"); 
+			?>
+
+			
+			<?php 
+				//$data = array('list_cart' => $list_cart, 'total_item' => $total_item,'total_price'=>$total_price);
+				$data = array('isCart'=>'1');
+				$this->load->view("/front/header.html",$data); 
+			?>
+
+			<!-- HEADER -->
+
+
+			<section class="page-header page-header-xs">
+				<div class="container">
+
+					<h1>SHOP CART</h1>
+
+					<!-- breadcrumbs -->
+					<ol class="breadcrumb">
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Shop</a></li>
+						<li class="active">Shop Cart</li>
+					</ol><!-- /breadcrumbs -->
+
+				</div>
+			</section>
+			<!-- /PAGE HEADER -->
+
+
+
+
+			<!-- CART -->
+			<section>
+				<div class="container">
+					<?php if(!$this->cart->contents())
+						{ 
+					?>
+						<!-- EMPTY CART -->
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<strong>Keranjang belanja kosong!</strong><br />
+								Kamu belum memilih item apapun.<br />
+								Klik <a href="<?php echo base_url(); ?>">disini</a> untuk memulai belanja. <br />
+							</div>
+						</div>
+						<!-- /EMPTY CART -->
+					<?php						
+						} else 
+						{
+						
+					?>
+									
+						<!-- CART -->
+						<div class="row">
+							<!-- LEFT -->
+							<div class="col-lg-9 col-sm-8">
+								<!-- CART -->
+								<form class="cartContent clearfix" method="post" action="<?php echo base_url(); ?>update-belanja">
+									
+									<!-- cart content -->
+									<div id="cartContent">
+										
+										
+											<!--<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th width="10%">IMAGE</th>
+															<th width="15%">NAMA PRODUK</th>
+															<th width="15%">JUMLAH</th>
+															<th width="10%">TOTAL</th>
+															<th width="10%"></th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php foreach($this->cart->contents() as $items)
+															  {
+														
+														?>
+														<tr>
+															<td></td>
+															<td><?php echo $items['name'];?></td>
+															<td><div class="qty"><input type="number" value="<?php echo $items['qty'];?>" name="qty" maxlength="3" max="999" min="1" /> &times; Rp. <?php echo $this->cart->format_number($items['price']); ?></div></td>
+															<td><div class="total_price"><span>Rp.</span><?php echo $this->cart->format_number($items['subtotal']); ?></div></td>
+															<td><a href="#" class="remove_item"><i class="fa fa-times"></i></a></td>
+														</tr>
+														<?php } ?>
+													</tbody>
+												</table>
+											</div>-->
+										
+										
+										<!-- cart header -->
+										<div class="item head clearfix">
+											<span class="cart_img"></span>
+											<span class="product_name size-13 bold">NAMA PRODUK</span>
+											<span class="remove_item size-13 bold"></span>
+											<span class="total_price size-13 bold">TOTAL</span>
+											<span class="qty size-13 bold">JUMLAH</span>
+										</div>
+										<!-- /cart header -->
+											
+										
+										<?php foreach($this->cart->contents() as $items)
+											  {
+												$src = base_url().'assets/global/produk/'.$items['gambar'];
+												$no=0;
+										?>
+										<!-- cart item -->
+										<div class="item">
+											
+											<div class="cart_img pull-left width-100 padding-10 text-left"><img src="<?php echo $src; ?>" alt="" width="80" /></div>
+											<!--<?php echo form_hidden('rowid[]', $items['rowid']); ?>-->
+											
+											<input type="hidden" name="rowid[]" id="rowid" value="<?php echo $items['rowid'];?>">
+											<input type="hidden" name="IDpesanan[]" id="IDpesanan" value="<?php echo rand(1,10000);?>">
+											<input type="hidden" name="harga_satuan[]" id="harga_satuan" value="<?php echo $items['price'];?>">
+											<input type="hidden" name="produk[]" id="produk" value="<?php echo $items['name'];?>">
+											
+											<a href="shop-single-left.html" class="product_name">
+												<span><?php echo $items['name'];?></span>
+												<!--<small>Color: Brown, Size: XL</small>-->
+											</a>
+											<a href="<?php echo base_url(); ?>keranjang-belanja" class="remove_item" id="hapus" onclick="hapusItem('<?php echo $items['rowid'];?>')"><i class="fa fa-times"></i></a>
+											<div class="total_price" id="total_price_"<?php echo $no; ?>><span>Rp. </span><?php echo $this->cart->format_number($items['subtotal']); ?></div>
+											<div class="qty"><input type="number" value="<?php echo $items['qty'];?>" name="qty[]" onchange="tambahJumlah(<?php echo $no; ?>)" id="qty" maxlength="3" max="999" min="1" /> &times; Rp. <?php echo $this->cart->format_number($items['price']); ?></div>
+											<div class="clearfix"></div>
+										</div>
+										<!-- /cart item -->
+										
+										<?php 
+												$no++;
+											} ?>
+
+										<!-- update cart -->
+										<button class="btn btn-success margin-top-20 margin-right-10 pull-right"><i class="glyphicon glyphicon-ok"></i> UPDATE KERANJANG</button>
+										<button class="btn btn-danger margin-top-20 margin-right-10 pull-right" onclick="emptyCart()"><i class="glyphicon glyphicon-remove"></i> HAPUS KERANJANG</button>
+										<a href="<?php echo base_url(); ?>" class="btn btn-primary margin-top-20 margin-right-10 pull-left"><i class="glyphicon glyphicon-back"></i> KEMBALI BELANJA</a>
+										<!-- /update cart -->
+
+										<div class="clearfix"></div>
+									</div>
+									<!-- /cart content -->
+
+								</form>
+								<!-- /CART -->
+
+							</div>
+
+
+							<!-- RIGHT -->
+							<div class="col-lg-3 col-sm-4">
+
+								<!-- TOGGLE -->
+								<div class="toggle-transparent toggle-bordered-full clearfix">
+
+									<div class="toggle nomargin-top">
+										<label>Voucher</label>
+
+										<div class="toggle-content">
+											<p>Masukan Kode Voucher Diskon Anda</p>
+
+											<form action="#" method="post" class="nomargin">
+												<input type="text" id="cart-code" name="cart-code" class="form-control text-center margin-bottom-10" placeholder="Kode Voucher" required="required">
+												<button class="btn btn-primary btn-block" type="submit">KIRIM</button>
+											</form>
+										</div>
+									</div>
+
+									<!--<div class="toggle">
+										<label>Shipping tax calculator</label>
+
+										<div class="toggle-content">
+											<p>To get a shipping estimate, please enter your destination.</p>
+
+											<form action="#" method="post" class="nomargin">
+												<label>Country*</label>
+												<select id="cart-tax-country" name="cart-tax-country" class="form-control pointer margin-bottom-20">
+													<option value="1">United States</option>
+													<option value="2">United Kingdom</option>
+													<option value="2">...........</option>
+													<!-- add all here -->
+									<!--			</select>
+
+												<label>State/Province</label>
+												<select id="cart-tax-state" name="cart-tax-state" class="form-control pointer margin-bottom-20">
+													<option value="1">Alabama</option>
+													<option value="2">Alaska</option>
+													<option value="2">...........</option>
+													<!-- add all here -->
+									<!--			</select>
+
+												<label>Zip/Postal Code</label>
+												<input type="text" id="cart-tax-postal" name="cart-tax-postal" class="form-control margin-bottom-20">
+
+												<button class="btn btn-primary btn-block" type="submit">SUBMIT</button>
+											</form>
+										</div>
+									</div>
+									-->
+								</div>
+								<!-- /TOGGLE -->
+								
+								<div class="toggle-transparent toggle-bordered-full clearfix">
+									<div class="toggle active">
+										<div class="toggle-content">
+											<!-- form input untuk kirim data order -->
+											<form action="<?php echo base_url();?>C_public_cart/cekout" method ="post" >
+												<input type="hidden" name="total_out" id="total_out" value="<?php echo $this->cart->total(); ?>">
+												<input type="hidden" name="diskon_out" id="diskon_out" value="0">
+												
+												
+												<span class="clearfix">
+													<span class="pull-right">Rp. <?php echo $this->cart->format_number($this->cart->total()); ?></span>
+													<strong class="pull-left">Subtotal:</strong>
+												</span>
+												<span class="clearfix">
+													<span class="pull-right">Rp. 0.00</span>
+													<span class="pull-left">Diskon:</span>
+												</span>
+												<!--<span class="clearfix">
+													<span class="pull-right">$0.00</span>
+													<span class="pull-left">Shipping:</span>
+												</span>
+												-->
+												<hr />
+
+												<span class="clearfix">
+													<span class="pull-right size-20">Rp. <?php echo $this->cart->format_number($this->cart->total()); ?></span>
+													<strong class="pull-left">TOTAL:</strong>
+												</span>
+
+												<hr />
+
+												<!-- <a href="#" onclick="gotoCekout()" class="btn btn-primary btn-lg btn-block size-15"><i class="fa fa-mail-forward"></i> Proses Checkout</a> -->
+												<input class="btn btn-primary btn-lg btn-block size-15" type="submit" value="Proses Checkout"/>
+											</form>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+						<!-- /CART -->
+					<?php } ?>
+				</div>
+			</section>
+			<!-- /CART -->
+
+
+
+			
+			<!-- RECOMMENDED -->
+			<section>
+				<div class="container">
+
+					<h2 class="owl-featured"><strong>Produk Lainnya</strong></h2>
+					<div class="owl-carousel featured nomargin owl-padding-10" data-plugin-options='{"singleItem": false, "stopOnHover":false, "autoPlay":4000, "autoHeight": false, "navigation": true, "pagination": false}'>
+
+						<?php if(!empty($list_produk_lain)) 
+						{  
+							$list_result = $list_produk_lain->result();
+							
+							foreach($list_result as $row6)
+							{
+
+								
+						?>
+						<!-- item -->
+						<div class="shop-item nomargin">
+							
+							<div class="thumbnail">
+								<!-- product image(s) -->
+								<a class="shop-item-image" href="<?php echo base_url(); ?>p/<?php echo $row6->id_produk; ?>">
+									<img class="img-responsive" src="<?php echo base_url(); ?>assets/global/produk/<?php echo $row6->avatar; ?>" alt="shop first image" />
+									<!--<img class="img-responsive" src="<?php echo base_url(); ?>assets/global/produk/<?php echo $row6->avatar; ?>" alt="shop hover image" />-->
+								</a>
+								<!-- /product image(s) -->
+
+								<!-- product more info -->
+								<!--<div class="shop-item-info">
+									<span class="label label-success">NEW</span>
+									<span class="label label-danger">SALE</span>
+								</div>
+								<!-- /product more info -->
+							</div>
+							
+							<div class="shop-item-summary text-center">
+								<h2><?php echo $row6->nama_produk;  ?></h2>
+								
+								<!-- rating -->
+								<div class="shop-item-rating-line">
+									<div class="rating rating-4 size-13"><!-- rating-0 ... rating-5 --></div>
+								</div>
+								<!-- /rating -->
+
+								<!-- price -->
+								<div class="shop-item-price">
+									<!--span class="line-through">$98.00</span>-->
+									<?php echo "Rp " . number_format($row6->harga,0,',','.'); ?>/<?php echo $row6->kode_satuan ?> 
+								</div>
+								<!-- /price -->
+							</div>
+
+								<!-- buttons -->
+								<div class="shop-item-buttons text-center">
+									<a class="btn btn-default" href="shop-cart.html"><i class="fa fa-cart-plus"></i> Add to Cart</a>
+								</div>
+								<!-- /buttons -->
+						</div>
+						<!-- /item -->
+							<?php 
+							}
+						}
+						?>
+
+					</div>
+
+				</div>
+			</section>
+			<!-- /RECOMMENDED -->
+
+			<?php $this->load->view('/front/footer.html');  ?>
+			
+		</div>
+		<!-- /wrapper -->
+
+
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+		<!-- PRELOADER -->
+		<div id="preloader">
+			<div class="inner">
+				<span class="loader"></span>
+			</div>
+		</div><!-- /PRELOADER -->
+
+
+		<script type="text/javascript">
+			function updateCart()
+			{
+				var rowid = $("#rowid").val();
+				var qty = $("#qty").val();
+			
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_cart/update_cart/"
+					, data: "rowid="+rowid+"&qty="+qty
+					, success:function(data)
+				{ 
+					/*if(data!=0)
+					{
+						//alert(data);
+					} 
+					else
+					{
+						//alert("gagal");
+						document.getElementById('harga').value="Rp. 0";
+					}*/
+				}
+				});
+			}
+			
+			function hapusItem(id)
+			{
+				//alert(id);
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_cart/hapus_item/"
+					, data: "rowid="+id
+					, success:function(data)
+				{ 
+					/*if(data!=0)
+					{
+						//alert(data);
+					} 
+					else
+					{
+						//alert("gagal");
+						document.getElementById('harga').value="Rp. 0";
+					}*/
+				}
+				});
+			}
+			
+			function emptyCart()
+			{
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_cart/empty_cart/"
+					, data: ''
+					, success:function(data)
+				{ 
+					/*if(data!=0)
+					{
+						//alert(data);
+					} 
+					else
+					{
+						//alert("gagal");
+						document.getElementById('harga').value="Rp. 0";
+					}*/
+				}
+				});
+			}
+			
+			function tambahJumlah(id)
+			{
+				var harga = $("#harga_satuan").val();
+				var jumlah = $("#qty").val();
+				
+				var total = harga[id]*jumlah[id];
+				//alert(harga[0]);
+				
+				$("#total_price_"+id).html("<span>Rp. </span>"+total.toLocaleString('en'));
+			}
+			
+			/*function gotoCekout()
+			{
+				alert("tes");
+				var total_out = $("#total_out").val();
+				var diskon_out = $("#diskon_out").val();
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_cart/cekout/"
+					, data: "total_out="+total_out+"&diskon_out="+diskon_out
+					, success:function(data)
+				{ 
+					//sukses back
+				}
+				});
+			}*/
+		
+		
+		</script>
+		
+		
+		
+		<!-- JAVASCRIPT FILES -->
+		<script type="text/javascript">var plugin_path = '<?php echo base_url(); ?>assets/plugins/';</script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/scripts.js"></script>
+		
+		<!-- STYLESWITCHER - REMOVE -->
+		<script async type="text/javascript" src="demo_files/styleswitcher/styleswitcher.js"></script>
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/view/demo.shop.js"></script>
+	</body>
+</html>

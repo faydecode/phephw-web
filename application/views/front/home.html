@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ubur-ubur Game Store</title>
+		<meta name="description" content="" />
+		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
+
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+		<!-- WEB FONTS : use %7C instead of | (pipe) -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+		<!-- CORE CSS -->
+		<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		
+		<!-- THEME CSS -->
+		<link href="<?php echo base_url(); ?>assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout.css" rel="stylesheet" type="text/css" />
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<link href="<?php echo base_url(); ?>assets/css/header-1.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+	</head>
+
+	<!--
+		AVAILABLE BODY CLASSES:
+		
+		smoothscroll 			= create a browser smooth scroll
+		enable-animation		= enable WOW animations
+
+		bg-grey					= grey background
+		grain-grey				= grey grain background
+		grain-blue				= blue grain background
+		grain-green				= green grain background
+		grain-blue				= blue grain background
+		grain-orange			= orange grain background
+		grain-yellow			= yellow grain background
+		
+		boxed 					= boxed layout
+		pattern1 ... patern11	= pattern background
+		menu-vertical-hide		= hidden, open on click
+		
+		BACKGROUND IMAGE [together with .boxed class]
+		data-background="assets/images/_smarty/boxed_background/1.jpg"
+	-->
+	<body class="smoothscroll enable-animation">
+
+		<!-- wrapper -->
+		<div id="wrapper">
+		
+			<?php $this->load->view('front/top-bar.html'); ?>
+		
+
+			<?php $this->load->view('front/header.html'); ?>
+
+			<section class="page-header page-header-md parallax parallax-3" style="background-image:url('<?php echo base_url(); ?>assets/images/head01.jpg')">
+				<div class="overlay dark-0"><!-- dark overlay [1 to 9 opacity] --></div>
+
+				<div class="container">
+
+					<h1>Ubur Ubur</h1>
+					<span class="font-lato size-18 weight-300">Game Store</span>
+
+					<!-- page tabs -->
+					<ul class="page-header-tabs list-inline">
+						<li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
+						<li class="active"><a href="<?php echo base_url(); ?>forum">Forum</a></li>
+						<li class="active"><a href="<?php echo base_url(); ?>about">About</a></li>
+					</ul><!-- /page tabs -->
+				</div>
+			</section>
+
+			<!-- -->
+			<section>
+				<div class="container">					
+					<div class="row" id="list">
+						<!-- CENTER -->
+						<div class="col-lg-6 col-md-6 col-sm-6 col-lg-push-3 col-md-push-3 col-sm-push-3">
+							<!-- CAROUSEL -->
+							<div class="owl-carousel buttons-autohide controlls-over margin-bottom-30 radius-4" data-plugin-options='{"singleItem": true, "autoPlay": 6000, "navigation": true, "pagination": true, "transitionStyle":"fade"}'>
+								<!-- item -->
+								<div>
+									<div class="caption-slider-default">
+										<div class="display-table">
+											<div class="display-table-cell vertical-align-middle">
+												<!--
+												<div class="caption-container text-left">
+													<h2>SHOP <strong>NOW</strong> &ndash; 50% OFF</h2>
+													<p>
+														This is a category banner rotator<br />
+														for any category of your shop.
+													</p>
+												</div>
+												-->
+											</div>
+										</div>
+									</div>
+
+									<img class="img-responsive radius-4" src="<?php echo base_url(); ?>assets/images/1234.jpg" width="851" height="335" alt="">
+								</div>
+								<!-- /item -->
+								<!-- item -->
+								<div>
+
+									<div class="caption-slider-default">
+										<div class="display-table">
+											<div class="display-table-cell vertical-align-middle">
+												<!--
+												<div class="caption-container text-left">
+													<h2>LOREM IPSUM <strong>DOLOR</strong></h2>
+													<p>
+														Unlimited designs, unlimited combinations <br />
+														imagination is the limit!
+													</p>
+												</div>
+												-->
+											</div>
+										</div>
+									</div>
+									<img class="img-responsive radius-4" src="<?php echo base_url(); ?>assets/images/03563189964cf72.jpg" width="851" height="335" alt="">
+								</div>
+								<!-- /item -->
+							</div>
+							<!-- /CAROUSEL -->
+
+							<!-- LIST OPTIONS -->
+							<div class="clearfix shop-list-options margin-bottom-20">								
+
+								<div class="options-left">
+									<!--<select>
+										<option value="pos_asc">All Type</option>
+										<option value="pos_asc">Auction</option>
+										<option value="pos_desc">Fixed Price</option>
+									</select>
+									-->									
+									
+									<a class="btn btn-default active" id="btnAuction" onclick="listProduk(1)" href="#list">AUCTION</a>
+									<a class="btn btn-default" id="btnFixed" onclick="listProduk(0)" href="#list">FIXED PRICE</a>
+									<a class="btn btn-default" id="btnAll" onclick="listProduk(2)" href="#list">ALL</a>
+								</div>
+
+							</div>
+							<!-- /LIST OPTIONS -->
+							
+							<div class="margin-bottom-60">								
+								<div class="owl-carousel featured" data-plugin-options='{"singleItem": true, "stopOnHover":false, "autoPlay":false, "autoHeight": false, "navigation": false, "pagination": false}'>
+									
+									<div id="list_produk">
+										<ul class="list-unstyled nomargin nopadding text-left">
+											
+											
+											<?php if(!empty($list_auction)) 
+											{  
+												$list_result = $list_auction->result();
+												
+												foreach($list_result as $row)
+												{
+
+													
+											?>
+											
+											<li class="clearfix"><!-- item -->
+												<div class="thumbnail featured clearfix pull-left">
+													<a href="<?php echo base_url(); ?>p/<?php echo $row->id_produk; ?>">
+														<img  src="<?php echo base_url(); ?>assets/images/produk/<?php echo $row->IMG_FILE; ?>" width="120" height="120" alt="featured item">
+													</a>
+												</div>
+
+												<a class="block size-12" href="<?php echo base_url(); ?>p/<?php echo $row->kode_produk; ?>"><?php echo $row->nama_produk;  ?></a>
+												<div class="size-12 text-left"><?php echo "Rp " . number_format($row->harga_mulai); ?></div>
+												<!-- <a class="block size-12"> -->
+													<!-- <?php echo $row->nama_supplier; ?> -->
+												<!-- </a> -->
+												<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
+												<div class="size-12 text-left">
+													<?php echo $row->tag_produk; ?>
+												</div>
+											</li><!-- /item -->
+											
+											<?php
+												}
+											}
+											?>
+											
+										</ul>
+
+									</div><!-- /SLIDE 2 -->
+								</div>							
+							</div>						
+
+							
+
+
+							<ul class="shop-item-list row list-inline nomargin" style="display:none;">
+								<!-- ITEM -->
+								<li class="col-lg-12">
+
+									<div class="shop-item clearfix">
+
+										<div class="thumbnail">
+											<!-- product image(s) -->
+											<a class="shop-item-image" href="<?php echo base_url(); ?>produk">
+												<img class="img-responsive" src="<?php echo base_url(); ?>assets/images/produk/p1.jpg" alt="shop first image" />
+												<img class="img-responsive" src="<?php echo base_url(); ?>assets/images/produk/p1.jpg" alt="shop hover image" />
+											</a>
+											<!-- /product image(s) -->
+
+											<!-- product more info -->
+											<div class="shop-item-info">
+												<span class="label label-success">NEW</span>
+												<span class="label label-danger">AUCTION</span>
+											</div>
+										</div>
+										
+										<div class="shop-item-summary">
+											<h2><a href="<?php echo base_url(); ?>produk"> Dishonored</a></h2>
+											<!-- price -->
+											<div class="shop-item-price">
+												Rp 78.000
+											</div>
+											<!-- /price -->
+											<div>
+												Maestro games <span>- Bogor</span>
+											</div>
+											<!-- rating -->
+											<div class="rating rating-4 size-13"><!-- rating-0 ... rating-5 --></div>
+											<!-- /rating -->
+											<div>
+												#dishonored #pcgames #popular
+											</div>			
+										</div>
+									</div>									
+								</li>
+								<!-- /ITEM -->
+							</ul>
+							
+
+							<hr />
+							<!-- Pagination Default -->
+							<!--<div class="text-center">
+								<ul class="pagination">
+									<li><a href="#">&laquo;</a></li>
+									<li class="active"><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+									<li><a href="#">&raquo;</a></li>
+								</ul>
+							</div>
+							<!-- /Pagination Default -->
+						</div>
+
+						<!-- LEFT SIDEBAR -->
+						<?php
+							
+							$this->load->view('front/sidebar.html'); 
+						?>
+
+						<!-- RIGHT -->
+						<div class="col-lg-3 col-md-3 col-sm-3">							
+
+							<!-- FEATURED -->
+							<div class="margin-bottom-60">
+
+								<h2 class="owl-featured">HOT DEALS</h2>
+								<div class="owl-carousel featured" data-plugin-options='{"singleItem": true, "stopOnHover":false, "autoPlay":false, "autoHeight": false, "navigation": true, "pagination": false}'>
+									
+									<div><!-- SLIDE 1 -->
+										<ul class="list-unstyled nomargin nopadding text-left">
+										
+											<?php 
+												if(!empty($list_hot_deal)) 
+												{  
+													$list_result2 = $list_hot_deal->result();
+													
+													foreach($list_result2 as $row)
+													{
+														
+											?>
+										
+											<li class="clearfix"><!-- item -->
+												<div class="thumbnail featured clearfix pull-left">
+													<a href="<?php echo base_url(); ?>p/<?php echo $row->id_produk; ?>">
+														<img src="<?php echo base_url(); ?>assets/images/produk/<?php echo $row->avatar; ?>" width="80" height="80" alt="featured item">
+													</a>
+												</div>
+
+												<a class="block size-12" href="<?php echo base_url(); ?>p/<?php echo $row->kode_produk; ?>"><?php echo $row->nama_produk;  ?></a>
+												<div class="size-12 text-left"><?php echo "Rp " . number_format($row->harga); ?></div>
+												<a class="block size-12">
+													<?php echo $row->nama_supplier; ?>
+												</a>
+												<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
+												<div class="size-12 text-left">
+													<?php echo $row->tag_produk; ?>
+												</div>
+											</li><!-- /item -->
+											<?php
+												}
+											}
+											?>
+											
+										</ul>
+									</div><!-- /SLIDE 1 -->
+
+									<div><!-- SLIDE 2 -->
+										
+										
+										
+									</div><!-- /SLIDE 2 -->
+								</div>							
+							</div>
+							<!-- /FEATURED -->
+						</div>
+					</div>					
+				</div>
+			</section>
+			<!-- / -->
+
+			<?php $this->load->view('front/footer.html'); ?>			
+
+		</div>
+		<!-- /wrapper -->
+
+
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+		<!-- PRELOADER -->
+		<div id="preloader">
+			<div class="inner">
+				<span class="loader"></span>
+			</div>
+		</div><!-- /PRELOADER -->
+
+
+		<!-- JAVASCRIPT FILES -->
+		<script type="text/javascript">var plugin_path = 'assets/plugins/';</script>
+		<script type="text/javascript" src="assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+
+		<script type="text/javascript" src="assets/js/scripts.js"></script>
+		
+		<!-- STYLESWITCHER - REMOVE -->
+		<!--<script async type="text/javascript" src="demo_files/styleswitcher/styleswitcher.js"></script>-->
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<script type="text/javascript" src="assets/js/view/demo.shop.js"></script>
+	</body>
+	
+<div class="navbar visible-xs">
+	<div class="margin-bottom-60">		
+		<div><!-- SLIDE 1 -->
+			<div class="thumbnail featured clearfix pull-left">
+				<a href="#">
+					<img  src="<?php echo base_url(); ?>featured/f01.jpg" width="50" height="50" alt="featured item">
+				</a>
+			</div>
+			<div class="size-18 text-left">Tomb Raider</div>
+			<div class="size-18 text-left">Rp132.000</div>
+			<div class="size-18 text-left">Maestro Games <span>- Bogor</span></div>
+			<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
+			<div class="size-12 text-left">
+				#tombrider #pcgames #adventure #action
+			</div>
+		</div>	
+	</div>
+</div>
+
+<style>
+body {margin:0;}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 15%;
+  margin-bottom:0px;
+}
+
+</style>	
+
+
+<script type="text/javascript">
+	function listProduk(type)
+	{
+		
+		//var kode_satuan = $("#kode_satuan").val();
+		//alert(type);
+		
+		
+		$.ajax({type: "POST", url: "<?=base_url();?>C_home/by"
+			, data: "type="+type
+			, success:function(data)
+		{ 
+			if(data!=0)
+			{
+				$("#list_produk").html(data);
+			} 
+			else
+			{
+				$("#list_produk").html("Tidak Ada Data Yang Ditampilkan");
+			}
+			
+			if(type == 1)
+			{
+				$("#btnAuction").attr('class', "btn btn-default active");
+				$("#btnFixed").attr('class', "btn btn-default");
+				$("#btnAll").attr('class', "btn btn-default");
+			} else if(type == 0)
+			{
+				$("#btnAuction").attr('class', "btn btn-default");
+				$("#btnFixed").attr('class', "btn btn-default active");
+				$("#btnAll").attr('class', "btn btn-default");
+			} else if(type == 2)
+			{
+				$("#btnAuction").attr('class', "btn btn-default");
+				$("#btnFixed").attr('class', "btn btn-default");
+				$("#btnAll").attr('class', "btn btn-default active");
+			}
+			
+		}
+		});
+		
+		
+	}
+
+</script>
+
+
+</html>
+

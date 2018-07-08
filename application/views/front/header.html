@@ -1,0 +1,218 @@
+
+			<!-- 
+				AVAILABLE HEADER CLASSES
+
+				Default nav height: 96px
+				.header-md 		= 70px nav height
+				.header-sm 		= 60px nav height
+
+				.noborder 		= remove bottom border (only with transparent use)
+				.transparent	= transparent header
+				.translucent	= translucent header
+				.sticky			= sticky header
+				.static			= static header
+				.dark			= dark header
+				.bottom			= header on bottom
+				
+				shadow-before-1 = shadow 1 header top
+				shadow-after-1 	= shadow 1 header bottom
+				shadow-before-2 = shadow 2 header top
+				shadow-after-2 	= shadow 2 header bottom
+				shadow-before-3 = shadow 3 header top
+				shadow-after-3 	= shadow 3 header bottom
+
+				.clearfix		= required for mobile menu, do not remove!
+
+				Example Usage:  class="clearfix sticky header-sm transparent noborder"
+			-->
+			<div id="header" class="sticky clearfix">
+
+				<!-- SEARCH HEADER -->
+				<div class="search-box over-header">
+					<a id="closeSearch" href="#" class="glyphicon glyphicon-remove"></a>
+
+					<form action="page-search-result-1.html" method="get">
+						<input type="text" class="form-control" placeholder="SEARCH" />
+					</form>
+				</div> 
+				<!-- /SEARCH HEADER -->
+
+
+				<!-- TOP NAV -->
+				<header id="topNav">
+					<div class="container">
+
+						<!-- Mobile Menu Button -->
+						<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+							<i class="fa fa-bars"></i>
+						</button>
+
+						<!-- BUTTONS -->
+						<ul class="pull-right nav nav-pills nav-second-main">
+
+							<!-- SEARCH -->
+							<li class="search">
+								<a href="javascript:;">
+									<i class="fa fa-search"></i>
+								</a>
+							</li>
+							<!-- /SEARCH -->
+
+
+							<!-- QUICK SHOP CART -->
+							<li class="quick-cart">
+								<?php if($isCart != '1') 
+										{ ?>
+									<a href="#">
+										<?php if(!empty($list_cart))
+											{
+												echo '<span class="badge badge-aqua btn-xs badge-corner">'.$total_item.'</span>';
+											}
+										?>
+											
+										
+										<i class="fa fa-shopping-cart"></i> 
+									</a>
+									<div class="quick-cart-box">
+										<h4>Keranjang Belanja</h4>
+										<?php if(!empty($list_cart))
+											{ 
+												
+										?>
+											<div class="quick-cart-wrapper">
+												<?php
+													foreach($list_cart as $items)
+													{			
+														$src = base_url().'assets/global/produk/'.$items['gambar'];
+												?>
+													<a href="#"><!-- cart item -->
+														<img src="<?php echo $src ?>" width="45" height="45" alt="" />
+														<h6><span><?php echo $items['qty'];?></span> <?php echo $items['name'];?></h6>
+														<small>Rp. <?php echo $this->cart->format_number($items['subtotal']); ?></small>
+													</a><!-- /cart item -->
+												<?php
+													}
+												?>
+											</div>
+											
+											<!-- quick cart footer -->
+											<div class="quick-cart-footer clearfix">
+												<a href="<?php echo base_url(); ?>keranjang-belanja" class="btn btn-primary btn-xs pull-right">LIHAT KERANJANG</a>
+												<br><span class="pull-left"><strong>TOTAL:</strong> Rp. <?php echo $this->cart->format_number($total_price); ?></span>
+											</div>
+											<!-- /quick cart footer -->
+											<?php
+											}
+											else 
+											{
+											?>
+												<div class="quick-cart-wrapper">
+													<a class="text-center" href="#">
+														<h6>KERANJANG KOSONG</h6>
+													</a>
+												</div>
+											
+											<?php						
+												} 
+											?>
+
+										
+
+									</div>
+								<?php } ?>
+							</li>
+							<!-- /QUICK SHOP CART -->
+
+						</ul>
+						<!-- /BUTTONS -->
+
+						<!-- Logo -->
+						<a class="logo pull-left" href="<?php echo base_url(); ?>">
+							<img src="<?php echo base_url(); ?>assets/images/logo.png" alt="" />
+						</a>
+
+						<!-- 
+							Top Nav 
+							
+							AVAILABLE CLASSES:
+							submenu-dark = dark sub menu
+						-->
+						<div class="navbar-collapse pull-right nav-main-collapse collapse submenu-dark">
+							<nav class="nav-main">
+
+								<!--
+									NOTE
+									
+									For a regular link, remove "dropdown" class from LI tag and "dropdown-toggle" class from the href.
+									Direct Link Example: 
+
+									<li>
+										<a href="#">HOME</a>
+									</li>
+								-->
+								<!--<ul id="topMain" class="nav nav-pills nav-main">
+									<li>
+										<a href="<?php echo base_url(); ?>">
+											HOME
+										</a>										
+									</li>
+									<li >
+										<a  href="<?php echo base_url(); ?>forum">
+											FORUM
+										</a>										
+									</li>																		
+									<li >
+										<a  href="<?php echo base_url(); ?>about">
+											ABOUT AS
+										</a>										
+									</li>
+									<!--<li class="dropdown active">
+										<a class="dropdown-toggle" href="#">
+											SHOP CHART
+										</a>										
+									</li>								
+									-->									
+
+
+
+									<!-- 
+										MENU ANIMATIONS
+											.nav-animate-fadeIn
+											.nav-animate-fadeInUp
+											.nav-animate-bounceIn
+											.nav-animate-bounceInUp
+											.nav-animate-flipInX
+											.nav-animate-flipInY
+											.nav-animate-zoomIn
+											.nav-animate-slideInUp
+
+											.nav-hover-animate 		= animate text on hover
+
+											.hover-animate-bounceIn = bounceIn effect on mouse over of main menu
+									-->
+									
+								</ul>
+
+							</nav>
+						</div>
+
+					</div>
+				</header>
+				<!-- /Top Nav -->
+
+			</div>
+
+
+			<!-- 
+	PAGE HEADER 
+	\
+	CLASSES:
+		.page-header-xs	= 20px margins
+		.page-header-md	= 50px margins
+		.page-header-lg	= 80px margins
+					.page-header-xlg= 130px margins
+		.dark		= dark page header
+		.light		= light page header
+-->
+
+<!-- /PAGE HEADER -->

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ubur-ubur Game Store</title>
+		<meta name="description" content="" />
+		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
+
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+		<!-- WEB FONTS : use %7C instead of | (pipe) -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+		<!-- CORE CSS -->
+		<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		
+		<!-- THEME CSS -->
+		<link href="<?php echo base_url(); ?>assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout.css" rel="stylesheet" type="text/css" />
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<link href="<?php echo base_url(); ?>assets/css/header-1.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+	</head>
+
+	<!--
+		AVAILABLE BODY CLASSES:
+		
+		smoothscroll 			= create a browser smooth scroll
+		enable-animation		= enable WOW animations
+
+		bg-grey					= grey background
+		grain-grey				= grey grain background
+		grain-blue				= blue grain background
+		grain-green				= green grain background
+		grain-blue				= blue grain background
+		grain-orange			= orange grain background
+		grain-yellow			= yellow grain background
+		
+		boxed 					= boxed layout
+		pattern1 ... patern11	= pattern background
+		menu-vertical-hide		= hidden, open on click
+		
+		BACKGROUND IMAGE [together with .boxed class]
+		data-background="assets/images/_smarty/boxed_background/1.jpg"
+	-->
+	<body class="smoothscroll enable-animation">
+
+		<!-- wrapper -->
+		<div id="wrapper">
+
+			<?php 
+				$this->load->view("/front/top-bar.html"); 
+			?>
+
+			
+			<?php 
+				$data = array('isCart'=>'0');
+				$this->load->view("/front/header.html"); 
+			?>
+
+			<!-- HEADER -->
+
+
+			<!-- -->
+			<section>
+				<div class="container">
+					
+					<div class="row">
+
+						<!-- RIGHT -->
+						<div class="col-lg-9 col-md-9 col-sm-9 col-lg-push-3 col-md-push-3 col-sm-push-3">
+							<?php 
+								if(!empty($detail_produk))
+								{
+									$list_result = $detail_produk->result();
+									foreach($list_result as $row)
+									{
+							?>
+							
+							<div class="row">
+							
+								<!-- IMAGE -->
+								<div class="col-lg-6 col-sm-6">
+									<?php 
+										
+											$no=0;
+											
+											
+												//echo $row->img_file;
+											
+									?>
+									<div class="thumbnail relative margin-bottom-3">
+										
+										<!-- 
+											IMAGE ZOOM 
+											
+											data-mode="mouseover|grab|click|toggle"
+										-->
+										<figure id="zoom-primary" class="zoom2" data-mode="mouseover">
+											<!-- 
+												zoom buttton
+												
+												positions available:
+													.bottom-right
+													.bottom-left
+													.top-right
+													.top-left
+											-->
+											<?php
+											//if($no==0)
+											//{
+												$src = base_url().'assets/images/produk/'.$row->img_file;
+											?>
+											
+											
+											<!-- 
+												image 
+												
+												Extra: add .image-bw class to force black and white!
+											-->
+											<img class="img-responsive" src="<?php echo $src; ?>" width="1200" height="1500" alt="This is the product title" />
+										</figure>
+
+									</div>
+									
+									<?php
+												$no++;
+											
+										
+									?>
+
+									<!-- Thumbnails (required height:100px) -->
+									<div data-for="zoom-primary" class="zoom-more owl-carousel owl-padding-3 featured hidden-xs" data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true, "pagination": false}'>
+										<?php  
+											if(!empty($detail_images))
+											{
+												$list_image = $detail_images->result();
+												foreach($list_image as $row2)
+												{
+													$src2 = base_url().'assets/images/produk/'.$row2->img_file;
+													//echo $src2;
+										?>
+										
+										<!--<a class="thumbnail active" href="demo_files/images/shop/products/1000x1500/p5.jpg">
+											<img src="demo_files/images/shop/products/100x100/p5.jpg" height="100" alt="" />
+										</a>-->
+										
+										<a class="thumbnail active hidden-xs hidden-sm" href="<?php echo $src2; ?>">
+											<img src="<?php echo $src2; ?>" height="100" alt="" />
+										</a>
+										<?php
+												}
+											}
+										?>
+									</div>
+									<!-- /Thumbnails -->
+
+								</div>
+								<!-- /IMAGE -->
+
+								<!-- ITEM DESC -->
+								<div class="col-lg-6 col-sm-6">
+
+									<!-- buttons -->
+									<div class="pull-right">
+										<!-- replace data-item-id width the real item ID - used by js/view/demo.shop.js -->
+										<!--<a class="btn btn-default add-wishlist" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart nopadding"></i></a>
+										<a class="btn btn-default add-compare" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Compare"><i class="fa fa-bar-chart-o nopadding" data-toggle="tooltip"></i></a>
+										-->
+									</div>
+									<!-- /buttons -->
+									<div class="clearfix margin-bottom-30">
+										
+										<!--
+										<span class="pull-right text-danger"><i class="glyphicon glyphicon-remove"></i> Out of Stock</span>
+										-->
+
+										<p>
+										
+											<input type="hidden" id="id_produk" value="<?php echo $row->id_produk; ?>"/>
+											<span class="block"><strong>Nama Produk :</strong> <?php echo $row->nama_produk;  ?></span>
+											<span class="block"><strong>Kategori :</strong> <?php echo $row->nama_kat_produk;  ?></span>
+											<span class="block"><strong>Tags :</strong> <?php echo $row->tag_produk;  ?></span>
+											<span class="block"><strong>Seller :</strong> <?php echo $row->nama_supplier;  ?></span>
+										</p>
+										
+										<?php if($row->type_produk == 1)
+											  {
+										?>
+										<div class="shop-item-price">
+											Last Bid : 
+											<?php echo "Rp " . number_format($row->harga); ?>
+										</div>
+										<?php } else { ?>
+											<div class="shop-item-price">
+												Price : 
+												<?php echo "Rp " . number_format($row->harga); ?>
+											</div>
+												
+										<?php } ?>
+									</div>
+									
+									
+									<!-- price -->
+									
+									<!-- /price -->
+
+									<hr />
+
+									
+									<!-- countdown -->
+									<?php if($row->type_produk == 1)
+										  {
+									?>
+									<div class="text-center">
+										<h5>Auction Closes In :</h5>
+										<div class="countdown" data-from="July 30, 2018 15:03:26" data-labels="years,months,weeks,days,hour,min,sec"><!-- Example Date From: December 31, 2018 15:03:26 --></div>
+									</div>
+									<?php } ?>
+									<!-- /countdown -->
+
+
+									<hr />
+
+									<!-- FORM -->
+									<?php if($row->type_produk == 1)
+										  {
+									?>
+										<form class="clearfix form-inline nomargin" method="get" action="<?php echo base_url(); ?>place-new-bid/<?php echo $row->id_produk; ?>">
+											
+											<button class="btn block btn-primary pull-left noradius">PLACE BID</button>
+										
+										</form>
+									<?php } else { ?>
+										<div class="clearfix form-inline nomargin">
+										
+											<input type="hidden" id="nama_produk_post" name="nama_produk_post" value="<?php echo $row->nama_produk; ?>" />
+											<input type="hidden" id="harga_post" name="harga_post" value="<?php echo $row->harga; ?>" />
+											<input type="hidden" id="stat" name="stat" value="1" />
+											<input type="hidden" id="satuan_post" name="satuan_post" value="<?php echo $row->kode_satuan; ?>" />
+											<input type="hidden" id="id_produk_post" name="id_produk_post" value="<?php echo $this->uri->segment(2,0); ?>" />
+											<input type="hidden" id="gambar_post" name="gambar_post" value="<?php echo $row->img_file; ?>" />
+											
+										
+											<button class="btn btn-primary pull-left product-add-cart noradius" onclick="inputJumlah()" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">BUY</button>
+									
+										</div>
+									<?php } ?>
+									<!-- /FORM -->
+
+
+									<hr />
+
+									<small class="text-muted">
+										<?php echo $row->ket_produk;  ?>
+									</small>
+
+									<hr />
+
+									<!-- Share -->
+									<!--<div class="pull-right">
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
+											<i class="icon-facebook"></i>
+											<i class="icon-facebook"></i>
+										</a>
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter pull-left" data-toggle="tooltip" data-placement="top" title="Twitter">
+											<i class="icon-twitter"></i>
+											<i class="icon-twitter"></i>
+										</a>
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus pull-left" data-toggle="tooltip" data-placement="top" title="Google plus">
+											<i class="icon-gplus"></i>
+											<i class="icon-gplus"></i>
+										</a>
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin pull-left" data-toggle="tooltip" data-placement="top" title="Linkedin">
+											<i class="icon-linkedin"></i>
+											<i class="icon-linkedin"></i>
+										</a>
+
+									</div>
+									-->
+									<!-- /Share -->
+
+
+									<!-- rating -->
+									<!-- rating-0 ... rating-5 -->
+									<!--<div class="rating rating-4 size-13 margin-top-10 width-100"></div>-->
+									<!-- /rating -->
+
+								</div>
+								<!-- /ITEM DESC -->
+
+					
+
+							</div>
+
+							<?php
+									}
+								}
+							?>
+
+							<hr class="margin-top-80 margin-bottom-80" />
+
+
+							<h2 class="owl-featured"><strong>Other Similar Item :</h2>
+							<div class="owl-carousel featured nomargin owl-padding-10" data-plugin-options='{"singleItem": false, "items": "4", "stopOnHover":false, "autoPlay":4500, "autoHeight": false, "navigation": true, "pagination": false}'>
+								<?php
+									if(!empty($related_produk))
+									{
+										$list_related = $related_produk->result();
+										foreach($list_related as $row3)
+										{
+										
+								?>
+								<!-- item -->
+								<div class="shop-item nomargin">
+
+									<div class="thumbnail clearfix pull-left">
+										<a href="<?php echo base_url(); ?>p/<?php echo $row->id_produk; ?>">
+											<img src="<?php echo base_url(); ?>assets/images/produk/<?php echo $row3->avatar; ?>" width="80" height="80" alt="featured item">
+										</a>
+									</div>
+		
+									<a class="block size-12" href="<?php echo base_url(); ?>p/<?php echo $row3->id_produk; ?>"><?php echo $row3->nama_produk;  ?></a>
+									<div class="size-12 text-left"><?php echo "Rp " . number_format($row3->harga); ?></div>
+									<a class="block size-12">
+										<?php echo $row3->nama_supplier; ?>
+									</a>
+									<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
+									<div class="size-12 text-left">
+										<?php echo $row3->tag_produk; ?>
+									</div>
+									
+								</div>
+								<!-- /item -->
+								<?php
+										}
+									}
+								?>
+
+							</div>
+
+						</div>
+
+
+						<?php $this->load->view('front/sidebar2.html'); ?>
+
+					</div>
+					
+				</div>
+			</section>
+			<!-- / -->
+
+
+
+
+			<?php $this->load->view('front/footer.html'); ?>
+
+		</div>
+		<!-- /wrapper -->
+		
+		<!-- MODAL INPUT JUMLAH BARANG  -->
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Input Jumlah Barang</h4>
+					</div>
+
+					<!-- Modal Body -->
+					<div class="modal-body">
+						<form action="<?php echo base_url(); ?>simpan-belanja" method="post" enctype="multipart/form-data">
+							<fieldset>
+								<input type="hidden" name="id_produk2" id="id_produk2" value="" />
+								<input type="hidden" name="nama_produk2" id="nama_produk2" value="" />
+								<input type="hidden" name="satuan2" id="satuan2" value="" />
+								<input type="hidden" name="harga2" id="harga2" value="" />
+								<input type="hidden" name="gambar2" id="gambar2" value="" />
+								
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-12 col-sm-12">
+											<div id="nama_produk3">  </div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-6 col-sm-6">
+											<label>Jumlah</label>
+											<input type="number" value="1" name="jumlah" onchange="tambahQty();" id="jumlah" min="1" max="9999" class="form-control">
+										</div>
+										<div class="col-md-6 col-sm-6">
+											<label>Total</label>
+											<input type="text" name="total" id="total" value="0" class="form-control required" disabled>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							
+							<div class="row">
+								<div class="col-md-12">
+									<button type="submit" class="btn btn-teal btn-md btn-block margin-top-30">
+										TAMBAHKAN KE KERANJANG
+									</button>
+								</div>
+							</div>
+						</form>
+
+					</div>
+
+					<!-- Modal Footer -->
+					<!--<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						
+					</div>-->
+
+				</div>
+			</div>
+		</div>
+		<!-- MODAL INPUT JUMLAH BARANG  -->
+		
+
+
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+		<!-- PRELOADER -->
+		<div id="preloader">
+			<div class="inner">
+				<span class="loader"></span>
+			</div>
+		</div><!-- /PRELOADER -->
+
+
+		
+		<!-- JAVASCRIPT FILES -->
+		<script type="text/javascript">var plugin_path = '<?php echo base_url(); ?>assets/plugins/';</script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/scripts.js"></script>
+		
+		<script>
+			function getHargaBySatuan()
+			{
+				var id_produk = $("#id_produk_post").val();
+				var kode_satuan = $("#kode_satuan").val();
+				//alert(kode_satuan);
+				
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_home/get_harga_satuan/"
+					, data: "id_produk="+id_produk+"&kode_satuan="+kode_satuan
+					, success:function(data)
+				{ 
+					if(data!=0)
+					{
+						//alert(data);
+						//$("harga").html("<span>"+data+"</span>");
+						document.getElementById('harga').value="Rp "+data;
+						document.getElementById('harga_post').value=data;
+						document.getElementById('satuan_post').value=$("#kode_satuan").val();
+					} 
+					else
+					{
+						//alert("gagal");
+						document.getElementById('harga').value="Rp. 0";
+						document.getElementById('harga_post').value="0";
+					}
+				}
+				});
+				
+			}
+			
+			function tambahQty()
+			{
+				var harga = $("#harga_post").val();
+				var jumlah = $("#jumlah").val();
+				
+				var total = harga*jumlah;
+				//alert(jumlah);
+				
+				document.getElementById('total').value=total.toLocaleString('en');
+				
+			}
+			
+			function inputJumlah()
+			{
+				var total = $("#harga_post").val();
+			
+			
+				document.getElementById('id_produk2').value=$("#id_produk_post").val();
+				document.getElementById('nama_produk2').value=$("#nama_produk_post").val();
+				document.getElementById('satuan2').value=$("#satuan_post").val();
+				document.getElementById('harga2').value=$("#harga_post").val();
+				document.getElementById('total').value=total.toLocaleString('en');
+				document.getElementById('jumlah').value="1";
+				document.getElementById('gambar2').value=$("#gambar_post").val();
+				$('#nama_produk3').html($("#nama_produk_post").val());
+			}
+			
+			
+		</script>
+		<!-- STYLESWITCHER - REMOVE -->
+		<!--<script async type="text/javascript" src="<?php echo base_url(); ?>demo_files/styleswitcher/styleswitcher.js"></script>-->
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/view/demo.shop.js"></script>
+	</body>
+</html>

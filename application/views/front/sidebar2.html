@@ -1,0 +1,115 @@
+<!-- LEFT -->
+						<div class="col-lg-3 col-md-3 col-sm-3 col-lg-pull-9 col-md-pull-9 col-sm-pull-9">
+
+							<!-- CATEGORIES -->
+							<div class="side-nav margin-bottom-60">
+
+								<div class="side-nav-head">
+									<button class="fa fa-bars"></button>
+									<h4>CATEGORIES</h4>
+								</div>
+
+								<ul class="list-group list-group-bordered list-group-noicon uppercase">
+									<?php
+										if(!empty($list_kategori))
+										{
+											$list_result3 = $list_kategori->result();
+											foreach($list_result3 as $row3)
+											{	
+												echo '<li id="'.$row3->id_kat_produk.'" class="list-group-item"><a href="'.base_url().'produk/'.$row3->id_kat_produk.'"><span class="size-11 text-muted pull-right">'.$row3->JUMLAH.'</span> '.$row3->nama_kat_produk.'</a></li>';
+											}
+										}
+									
+									?>
+								</ul>
+
+							</div>
+							<!-- /CATEGORIES -->
+
+							
+							<!-- BANNER ROTATOR -->
+							<div class="owl-carousel buttons-autohide controlls-over margin-bottom-60 text-center" data-plugin-options='{"singleItem": true, "autoPlay": 4000, "navigation": true, "pagination": false, "transitionStyle":"goDown"}'>
+								<a href="#">
+									<img class="img-responsive" src="<?php echo base_url(); ?>demo_files/images/shop/banners/off_1.png" width="270" height="350" alt="">
+								</a>
+								<a href="#">
+									<img class="img-responsive" src="<?php echo base_url(); ?>demo_files/images/shop/banners/off_2.png" width="270" height="350" alt="">
+								</a>
+							</div>
+							<!-- /BANNER ROTATOR -->
+
+
+							<!-- FEATURED -->
+							<div class="margin-bottom-60">
+
+								<h2 class="owl-featured">HOT DEALS</h2>
+								<div class="owl-carousel featured" data-plugin-options='{"singleItem": true, "stopOnHover":false, "autoPlay":false, "autoHeight": false, "navigation": true, "pagination": false}'>
+									
+									<div><!-- SLIDE 1 -->
+										<ul class="list-unstyled nomargin nopadding text-left">
+										
+											<?php 
+												if(!empty($list_hot_deal)) 
+												{  
+													$list_result2 = $list_hot_deal->result();
+													
+													foreach($list_result2 as $row)
+													{
+											
+											?>
+										
+											<li class="clearfix"><!-- item -->
+												<div class="thumbnail featured clearfix pull-left">
+													<a href="<?php echo base_url(); ?>p/<?php echo $row->id_produk; ?>">
+														<img src="<?php echo base_url(); ?>assets/images/produk/<?php echo $row->avatar; ?>" width="80" height="80" alt="featured item">
+													</a>
+												</div>
+
+												<a class="block size-12" href="<?php echo base_url(); ?>p/<?php echo $row->id_produk; ?>"><?php echo $row->nama_produk;  ?></a>
+												<div class="size-12 text-left"><?php echo "Rp " . number_format($row->harga); ?></div>
+												<a class="block size-12">
+													<?php echo $row->nama_supplier; ?>
+												</a>
+												<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
+												<div class="size-12 text-left">
+													<?php echo $row->tag_produk; ?>
+												</div>
+											</li><!-- /item -->
+											<?php
+												}
+											}
+											?>
+											
+										</ul>
+									</div><!-- /SLIDE 1 -->
+
+									<div><!-- SLIDE 2 -->
+										
+										
+										
+									</div><!-- /SLIDE 2 -->
+								</div>	
+							
+							</div>
+							<!-- /FEATURED -->
+
+
+							<!-- HTML BLOCK -->
+							<!--<div class="margin-bottom-60">
+								<h4>JOIN OUT MILIST</h4>
+								<p>Get the latest news</p>
+
+								<form action="#".box-shadow- method="post">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+										<input type="email" id="email" name="email" class="form-control required" placeholder="Enter your Email">
+										<span class="input-group-btn">
+											<button class="btn btn-success" type="submit"><i class="glyphicon glyphicon-send"></i></button>
+										</span>
+									</div>
+								</form>
+
+							</div>
+							<!-- /HTML BLOCK -->
+			
+						</div>

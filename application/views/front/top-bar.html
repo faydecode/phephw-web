@@ -1,0 +1,96 @@
+
+			<!-- 
+				AVAILABLE HEADER CLASSES
+
+				Default nav height: 96px
+				.header-md 		= 70px nav height
+				.header-sm 		= 60px nav height
+
+				.noborder 		= remove bottom border (only with transparent use)
+				.transparent	= transparent header
+				.translucent	= translucent header
+				.sticky			= sticky header
+				.static			= static header
+				.dark			= dark header
+				.bottom			= header on bottom
+				
+				shadow-before-1 = shadow 1 header top
+				shadow-after-1 	= shadow 1 header bottom
+				shadow-before-2 = shadow 2 header top
+				shadow-after-2 	= shadow 2 header bottom
+				shadow-before-3 = shadow 3 header top
+				shadow-after-3 	= shadow 3 header bottom
+
+				.clearfix		= required for mobile menu, do not remove!
+
+				Example Usage:  class="clearfix sticky header-sm transparent noborder"
+			-->
+			
+			<!-- Top Bar -->
+			
+<!-- Top Bar -->
+<div id="topBar" class="sticky">
+	<div class="container">
+
+		<!-- right -->
+		<ul class="top-links list-inline pull-right">
+			<?php if(($this->session->userdata('ses_public_user') != null) or ($this->session->userdata('ses_public_pass') != null))
+				{
+			?>
+			<li class="text-welcome hidden-xs">Selamat datang di Uburubur.com, <strong><?php echo $this->session->userdata('ses_public_nama_member'); ?></strong></li>
+			<li>
+				<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><i class="fa fa-user hidden-xs"></i> MY ACCOUNT</a>
+				<ul class="dropdown-menu pull-right">
+					
+					<?php if($this->session->userdata('ses_public_kat_costumer') == 'SELLER')
+						  {
+					?>
+						<li><a tabindex="-1" href="<?php echo base_url(); ?>kelola-toko"><i class="fa fa-history"></i> Kelola Toko</a></li>
+					<?php } else { ?>
+						<li><a tabindex="-1" href="<?php echo base_url(); ?>history-order"><i class="fa fa-history"></i> Histori Pesanan</a></li>
+					<?php } ?>
+					
+					<li class="divider"></li>
+					<!--<li><a tabindex="-1" href="#"><i class="fa fa-bookmark"></i> MY WISHLIST</a></li>
+					<li><a tabindex="-1" href="#"><i class="fa fa-edit"></i> MY REVIEWS</a></li>-->
+					<li><a tabindex="-1" href="<?php echo base_url(); ?>profile"><i class="fa fa-user"></i> USER PROFILE</a></li>
+					<!--<li><a tabindex="-1" href="<?php echo base_url(); ?>edit-pengaturan"><i class="fa fa-cog"></i> PENGATURAN</a></li>-->
+					<li class="divider"></li>
+					<li><a tabindex="-1" href="<?php echo base_url(); ?>logout-akun"><i class="glyphicon glyphicon-off"></i> LOGOUT</a></li>
+				</ul>
+			</li>
+			<?php } else { ?>
+			
+			<li class="hidden-xs"><a href="<?php echo base_url(); ?>login-akun">MASUK</a></li>
+			<li class="hidden-xs"><a href="<?php echo base_url(); ?>daftar-akun">DAFTAR</a></li>
+			
+			<?php } ?>
+		</ul>
+
+		<!-- left -->
+		<!--<ul class="top-links list-inline">
+			<li class="hidden-xs"><a href="page-faq-1.html">FAQ</a></li>
+			<li>
+				<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><img class="flag-lang" src="assets2/images/_smarty/flags/us.png" width="16" height="11" alt="lang" /> ENGLISH</a>
+				<ul class="dropdown-langs dropdown-menu">
+					<li><a tabindex="-1" href="#"><img class="flag-lang" src="assets2/images/_smarty/flags/us.png" width="16" height="11" alt="lang" /> ENGLISH</a></li>
+					<li class="divider"></li>
+					<li><a tabindex="-1" href="#"><img class="flag-lang" src="assets2/images/_smarty/flags/de.png" width="16" height="11" alt="lang" /> GERMAN</a></li>
+					<li><a tabindex="-1" href="#"><img class="flag-lang" src="assets2/images/_smarty/flags/ru.png" width="16" height="11" alt="lang" /> RUSSIAN</a></li>
+					<li><a tabindex="-1" href="#"><img class="flag-lang" src="assets2/images/_smarty/flags/it.png" width="16" height="11" alt="lang" /> ITALIAN</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#">USD</a>
+				<ul class="dropdown-langs dropdown-menu">
+					<li><a tabindex="-1" href="#">USD</a></li>
+					<li class="divider"></li>
+					<li><a tabindex="-1" href="#">EUR</a></li>
+					<li><a tabindex="-1" href="#">GBP</a></li>
+				</ul>
+			</li>
+		</ul>-->
+
+	</div>
+</div>
+<!-- /Top Bar -->

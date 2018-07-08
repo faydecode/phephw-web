@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ubur-ubur Game Store</title>
+		<meta name="description" content="" />
+		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
+
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+		<!-- WEB FONTS : use %7C instead of | (pipe) -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+		<!-- CORE CSS -->
+		<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		
+		<!-- THEME CSS -->
+		<link href="<?php echo base_url(); ?>assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout.css" rel="stylesheet" type="text/css" />
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<link href="<?php echo base_url(); ?>assets/css/header-1.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+	</head>
+
+	<!--
+		AVAILABLE BODY CLASSES:
+		
+		smoothscroll 			= create a browser smooth scroll
+		enable-animation		= enable WOW animations
+
+		bg-grey					= grey background
+		grain-grey				= grey grain background
+		grain-blue				= blue grain background
+		grain-green				= green grain background
+		grain-blue				= blue grain background
+		grain-orange			= orange grain background
+		grain-yellow			= yellow grain background
+		
+		boxed 					= boxed layout
+		pattern1 ... patern11	= pattern background
+		menu-vertical-hide		= hidden, open on click
+		
+		BACKGROUND IMAGE [together with .boxed class]
+		data-background="assets/images/_smarty/boxed_background/1.jpg"
+	-->
+	<body class="smoothscroll enable-animation">
+
+		<!-- wrapper -->
+		<div id="wrapper">
+
+			<!-- Top Bar -->
+			<div id="topBar">
+				<div class="container">
+
+					<!-- right -->
+					<ul class="top-links list-inline pull-right">
+						<li class="text-welcome hidden-xs">Welcome to Ubur-ubur, <strong>Fahmi</strong></li>
+						<li>
+							<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><i class="fa fa-user hidden-xs"></i> MY ACCOUNT</a>
+							<ul class="dropdown-menu pull-right">
+								<li><a tabindex="-1" href="#"><i class="fa fa-history"></i> ORDER HISTORY</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#"><i class="fa fa-bookmark"></i> MY WISHLIST</a></li>
+								<li><a tabindex="-1" href="#"><i class="fa fa-edit"></i> MY REVIEWS</a></li>
+								<li><a tabindex="-1" href="#"><i class="fa fa-cog"></i> MY SETTINGS</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#"><i class="glyphicon glyphicon-off"></i> LOGOUT</a></li>
+							</ul>
+						</li>
+						<li class="hidden-xs"><a href="page-login-1.html">LOGIN</a></li>
+						<li class="hidden-xs"><a href="page-register-1.html">REGISTER</a></li>
+					</ul>
+
+					<!-- left -->
+					<ul class="top-links list-inline">
+						<!--
+						<li class="hidden-xs"><a href="page-faq-1.html">FAQ</a></li>
+						<li>
+							<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#">USD</a>
+							<ul class="dropdown-langs dropdown-menu">
+								<li><a tabindex="-1" href="#">USD</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#">EUR</a></li>
+								<li><a tabindex="-1" href="#">GBP</a></li>
+							</ul>
+						</li>-->
+					</ul>
+
+				</div>
+			</div>
+			<!-- /Top Bar -->
+
+							<!-- 
+								AVAILABLE HEADER CLASSES
+
+								Default nav height: 96px
+								.header-md 		= 70px nav height
+								.header-sm 		= 60px nav height
+
+								.noborder 		= remove bottom border (only with transparent use)
+								.transparent	= transparent header
+								.translucent	= translucent header
+								.sticky			= sticky header
+								.static			= static header
+								.dark			= dark header
+								.bottom			= header on bottom
+								
+								shadow-before-1 = shadow 1 header top
+								shadow-after-1 	= shadow 1 header bottom
+								shadow-before-2 = shadow 2 header top
+								shadow-after-2 	= shadow 2 header bottom
+								shadow-before-3 = shadow 3 header top
+								shadow-after-3 	= shadow 3 header bottom
+
+								.clearfix		= required for mobile menu, do not remove!
+
+								Example Usage:  class="clearfix sticky header-sm transparent noborder"
+							-->
+							<div id="header" class="sticky clearfix">
+
+								<!-- SEARCH HEADER -->
+								<div class="search-box over-header">
+									<a id="closeSearch" href="#" class="glyphicon glyphicon-remove"></a>
+
+									<form action="page-search-result-1.html" method="get">
+										<input type="text" class="form-control" placeholder="SEARCH" />
+									</form>
+								</div> 
+								<!-- /SEARCH HEADER -->
+
+
+								<!-- TOP NAV -->
+								<header id="topNav">
+									<div class="container">
+
+										<!-- Mobile Menu Button -->
+										<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+											<i class="fa fa-bars"></i>
+										</button>
+
+										<!-- BUTTONS -->
+										<ul class="pull-right nav nav-pills nav-second-main">
+
+											<!-- SEARCH -->
+											<li class="search">
+												<a href="javascript:;">
+													<i class="fa fa-search"></i>
+												</a>
+											</li>
+											<!-- /SEARCH -->
+
+
+											<!-- QUICK SHOP CART -->
+											<li class="quick-cart">
+												<a href="#">
+													<span class="badge badge-aqua btn-xs badge-corner">2</span>
+													<i class="fa fa-shopping-cart"></i> 
+												</a>
+												<div class="quick-cart-box">
+													<h4>Shop Cart</h4>
+
+													<div class="quick-cart-wrapper">
+
+														<a href="#"><!-- cart item -->
+															<img src="<?php echo base_url(); ?>demo_files/images/people/300x300/4-min.jpg" width="45" height="45" alt="" />
+															<h6><span>2x</span> RED BAG WITH HUGE POCKETS</h6>
+															<small>$37.21</small>
+														</a><!-- /cart item -->
+
+														<a href="#"><!-- cart item -->
+															<img src="<?php echo base_url(); ?>demo_files/images/people/300x300/5-min.jpg" width="45" height="45" alt="" />
+															<h6><span>2x</span> THIS IS A VERY LONG TEXT AND WILL BE TRUNCATED</h6>
+															<small>$17.18</small>
+														</a><!-- /cart item -->
+
+														<!-- cart no items example -->
+														<!--
+														<a class="text-center" href="#">
+															<h6>0 ITEMS ON YOUR CART</h6>
+														</a>
+														-->
+
+													</div>
+
+													<!-- quick cart footer -->
+													<div class="quick-cart-footer clearfix">
+														<a href="shop-cart.html" class="btn btn-primary btn-xs pull-right">VIEW CART</a>
+														<span class="pull-left"><strong>TOTAL:</strong> $54.39</span>
+													</div>
+													<!-- /quick cart footer -->
+
+												</div>
+											</li>
+											<!-- /QUICK SHOP CART -->
+
+										</ul>
+										<!-- /BUTTONS -->
+
+										<!-- Logo -->
+										<a class="logo pull-left" href="<?php echo base_url(); ?>">
+											<img src="<?php echo base_url(); ?>assets/images/logo.png" alt="" />
+										</a>
+
+										<!-- 
+											Top Nav 
+											
+											AVAILABLE CLASSES:
+											submenu-dark = dark sub menu
+										-->
+										<div class="navbar-collapse pull-right nav-main-collapse collapse submenu-dark">
+											<nav class="nav-main">
+
+												<!--
+													NOTE
+													
+													For a regular link, remove "dropdown" class from LI tag and "dropdown-toggle" class from the href.
+													Direct Link Example: 
+
+													<li>
+														<a href="#">HOME</a>
+													</li>
+												-->
+												<ul id="topMain" class="nav nav-pills nav-main">
+													<li>
+														<a href="<?php echo base_url(); ?>">
+															HOME
+														</a>										
+													</li>
+													<li >
+														<a  href="<?php echo base_url(); ?>forum">
+															FORUM
+														</a>										
+													</li>																		
+													<li >
+														<a  href="<?php echo base_url(); ?>about">
+															ABOUT AS
+														</a>										
+													</li>
+												
+
+
+													<!-- 
+														MENU ANIMATIONS
+															.nav-animate-fadeIn
+															.nav-animate-fadeInUp
+															.nav-animate-bounceIn
+															.nav-animate-bounceInUp
+															.nav-animate-flipInX
+															.nav-animate-flipInY
+															.nav-animate-zoomIn
+															.nav-animate-slideInUp
+
+															.nav-hover-animate 		= animate text on hover
+
+															.hover-animate-bounceIn = bounceIn effect on mouse over of main menu
+													-->
+													
+												</ul>
+
+											</nav>
+										</div>
+
+									</div>
+								</header>
+								<!-- /Top Nav -->
+
+							</div>
+
+
+							<!-- 
+					PAGE HEADER 
+					\
+					CLASSES:
+						.page-header-xs	= 20px margins
+						.page-header-md	= 50px margins
+						.page-header-lg	= 80px margins
+									.page-header-xlg= 130px margins
+						.dark		= dark page header
+						.light		= light page header
+				-->
+
+				<!-- /PAGE HEADER -->
+
+
+
+
+			<!-- -->
+			<section>
+				<div class="container">
+					
+					<div class="row">
+
+						<!-- RIGHT -->
+						<div class="col-lg-9 col-md-9 col-sm-9 col-lg-push-3 col-md-push-3 col-sm-push-3">
+
+							<div class="row">
+							
+								<!-- IMAGE -->
+								<div class="col-lg-6 col-sm-6">
+									
+									<div class="thumbnail relative margin-bottom-3">
+
+										<!-- 
+											IMAGE ZOOM 
+											
+											data-mode="mouseover|grab|click|toggle"
+										-->
+										<figure id="zoom-primary" class="zoom" data-mode="mouseover">
+											<!-- 
+												zoom buttton
+												
+												positions available:
+													.bottom-right
+													.bottom-left
+													.top-right
+													.top-left
+											-->
+											<a class="lightbox bottom-right" href="<?php echo base_url(); ?>assets/images/produk/p1.jpg" data-plugin-options='{"type":"image"}'><i class="glyphicon glyphicon-search"></i></a>
+
+											<!-- 
+												image 
+												
+												Extra: add .image-bw class to force black and white!
+											-->
+											<img class="img-responsive" src="<?php echo base_url(); ?>assets/images/produk/p1.jpg" width="1200" height="1500" alt="This is the product title" />
+										</figure>
+
+									</div>
+
+									<!-- Thumbnails (required height:100px) -->
+									<div data-for="zoom-primary" class="zoom-more owl-carousel owl-padding-3 featured" data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true, "pagination": false}'>
+										<a class="thumbnail active" href="<?php echo base_url(); ?>assets/images/produk/p1.jpg">
+											<img src="<?php echo base_url(); ?>assets/images/produk/p1.jpg" height="100" alt="" />
+										</a>
+										<a class="thumbnail" href="<?php echo base_url(); ?>assets/images/produk/p1.jpg">
+											<img src="<?php echo base_url(); ?>assets/images/produk/p1.jpg" height="100" alt="" />
+										</a>
+										<a class="thumbnail" href="<?php echo base_url(); ?>assets/images/produk/p1.jpg">
+											<img src="<?php echo base_url(); ?>assets/images/produk/p1.jpg" height="100" alt="" />
+										</a>
+										<a class="thumbnail" href="<?php echo base_url(); ?>assets/images/produk/p1.jpg">
+											<img src="<?php echo base_url(); ?>assets/images/produk/p1.jpg" height="100" alt="" />
+										</a>
+										
+									</div>
+									<!-- /Thumbnails -->
+
+								</div>
+								<!-- /IMAGE -->
+
+								<!-- ITEM DESC -->
+								<div class="col-lg-6 col-sm-6">
+
+									<!-- buttons -->
+									<div class="pull-right">
+										<!-- replace data-item-id width the real item ID - used by js/view/demo.shop.js -->
+										<!--<a class="btn btn-default add-wishlist" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart nopadding"></i></a>
+										<a class="btn btn-default add-compare" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Compare"><i class="fa fa-bar-chart-o nopadding" data-toggle="tooltip"></i></a>
+										-->
+									</div>
+									<!-- /buttons -->
+									<div class="clearfix margin-bottom-30">
+										
+										<!--
+										<span class="pull-right text-danger"><i class="glyphicon glyphicon-remove"></i> Out of Stock</span>
+										-->
+
+										<p>
+											<span class="block"><strong>Nama Produk :</strong> Dishonor</span>
+											<span class="block"><strong>Kategori :</strong> RPG</span>
+											<span class="block"><strong>Tags :</strong> #popular #pcgames</span>
+											<span class="block"><strong>Seller :</strong> Maestro Games - Bogor</span>
+										</p>
+										
+										<div class="shop-item-price">
+											Last Bid : 
+											Rp. 150.000
+										</div>
+										
+									</div>
+									
+									
+									<!-- price -->
+									
+									<!-- /price -->
+
+									<hr />
+
+
+									<!-- countdown -->
+									<div class="text-center">
+										<h5>Auction Closes In :</h5>
+										<div class="countdown" data-from="Juny 30, 2018 15:03:26" data-labels="years,months,weeks,days,hour,min,sec"><!-- Example Date From: December 31, 2018 15:03:26 --></div>
+									</div>
+									<!-- /countdown -->
+
+
+									<hr />
+
+									<!-- FORM -->
+									<form class="clearfix form-inline nomargin" method="get" action="<?php echo base_url(); ?>place-new-bid">
+										
+										<button class="btn btn-primary pull-left product-add-cart noradius">PLACE BID</button>
+									
+									</form>
+									<!-- /FORM -->
+
+
+									<hr />
+
+									<small class="text-muted">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas metus nulla, 
+										commodo a sodales sed, dignissim pretium nunc. Nam et lacus neque. Ut enim 
+										massa, sodales tempor convallis et.
+									</small>
+
+									<hr />
+
+									<!-- Share -->
+									<div class="pull-right">
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
+											<i class="icon-facebook"></i>
+											<i class="icon-facebook"></i>
+										</a>
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter pull-left" data-toggle="tooltip" data-placement="top" title="Twitter">
+											<i class="icon-twitter"></i>
+											<i class="icon-twitter"></i>
+										</a>
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus pull-left" data-toggle="tooltip" data-placement="top" title="Google plus">
+											<i class="icon-gplus"></i>
+											<i class="icon-gplus"></i>
+										</a>
+
+										<a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin pull-left" data-toggle="tooltip" data-placement="top" title="Linkedin">
+											<i class="icon-linkedin"></i>
+											<i class="icon-linkedin"></i>
+										</a>
+
+									</div>
+									<!-- /Share -->
+
+
+									<!-- rating -->
+									<div class="rating rating-4 size-13 margin-top-10 width-100"><!-- rating-0 ... rating-5 --></div>
+									<!-- /rating -->
+
+								</div>
+								<!-- /ITEM DESC -->
+
+					
+
+							</div>
+
+
+
+							<hr class="margin-top-80 margin-bottom-80" />
+
+
+							<h2 class="owl-featured"><strong>Other Similar Item :</h2>
+							<div class="owl-carousel featured nomargin owl-padding-10" data-plugin-options='{"singleItem": false, "items": "4", "stopOnHover":false, "autoPlay":4500, "autoHeight": false, "navigation": true, "pagination": false}'>
+
+								<!-- item -->
+								<div class="shop-item nomargin">
+
+									<div class="thumbnail">
+										<!-- product image(s) -->
+										<a class="shop-item-image" href="<?php echo base_url(); ?>produk">
+											<img class="img-responsive" src="<?php echo base_url(); ?>assets/images/produk/p2.jpg" alt="shop first image" />
+											<img class="img-responsive" src="<?php echo base_url(); ?>assets/images/produk/p2.jpg" alt="shop hover image" />
+										</a>
+										<!-- /product image(s) -->
+
+										<!-- product more info -->
+										<div class="shop-item-info">
+											<span class="label label-success">NEW</span>
+											<span class="label label-danger">AUCTION</span>
+										</div>
+									</div>
+									
+									<div class="shop-item-summary text-center">
+										<h2>Tomb Raider</h2>
+										
+										<!-- rating -->
+										<div class="shop-item-rating-line">
+											<div class="rating rating-4 size-13"><!-- rating-0 ... rating-5 --></div>
+										</div>
+										<!-- /rating -->
+
+										<!-- price -->
+										<div class="shop-item-price">
+											<span class="line-through">95.000</span>
+											Rp. 78.000
+										</div>
+										<!-- /price -->
+									</div>
+
+										<!-- buttons -->
+										<div class="shop-item-buttons text-center">
+											<a class="btn btn-default" href="<?php echo base_url(); ?>produk"><i class="fa fa-cart-plus"></i> Start Bid</a>
+										</div>
+										<!-- /buttons -->
+								</div>
+								<!-- /item -->
+
+								<!-- item -->
+								<div class="shop-item nomargin">
+
+									<div class="thumbnail">
+										<!-- product image(s) -->
+										<a class="shop-item-image" href="<?php echo base_url(); ?>produk">
+											<!-- CAROUSEL -->
+											<div class="owl-carousel owl-padding-0 nomargin" data-plugin-options='{"singleItem": true, "autoPlay": 3000, "navigation": false, "pagination": false, "transitionStyle":"fadeUp"}'>
+												<img class="img-responsive" src="<?php echo base_url(); ?>assets/images/produk/gamefor.jpg" alt="">
+												<img class="img-responsive" src="<?php echo base_url(); ?>assets/images/produk/gamefor.jpg" alt="">
+											</div>
+											<!-- /CAROUSEL -->
+										</a>
+										<!-- /product image(s) -->
+									</div>
+									
+									<div class="shop-item-summary text-center">
+										<h2>Mass Effect</h2>
+										
+										<!-- rating -->
+										<div class="shop-item-rating-line">
+											<div class="rating rating-4 size-13"><!-- rating-0 ... rating-5 --></div>
+										</div>
+										<!-- /rating -->
+
+										<!-- price -->
+										<div class="shop-item-price">
+											$44.00
+										</div>
+										<!-- /price -->
+									</div>
+
+										<!-- buttons -->
+										<div class="shop-item-buttons text-center">
+											<a class="btn btn-default" href="<?php echo base_url(); ?>produk"><i class="fa fa-cart-plus"></i> Add to Cart</a>
+										</div>
+										<!-- /buttons -->
+								</div>
+								<!-- /item -->
+
+
+							</div>
+
+						</div>
+
+
+						<?php $this->load->view('front/sidebar2.html'); ?>
+
+					</div>
+					
+				</div>
+			</section>
+			<!-- / -->
+
+
+
+
+			<?php $this->load->view('front/footer.html'); ?>
+
+		</div>
+		<!-- /wrapper -->
+
+
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+		<!-- PRELOADER -->
+		<div id="preloader">
+			<div class="inner">
+				<span class="loader"></span>
+			</div>
+		</div><!-- /PRELOADER -->
+
+
+		
+		<!-- JAVASCRIPT FILES -->
+		<script type="text/javascript">var plugin_path = '<?php echo base_url(); ?>assets/plugins/';</script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/scripts.js"></script>
+		
+		<!-- STYLESWITCHER - REMOVE -->
+		<script async type="text/javascript" src="<?php echo base_url(); ?>demo_files/styleswitcher/styleswitcher.js"></script>
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/view/demo.shop.js"></script>
+	</body>
+</html>
