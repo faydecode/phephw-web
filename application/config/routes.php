@@ -126,6 +126,9 @@ $route['toko-close'] = "C_admin_toko/close";
 	$route['admin-auction-hapus/(:any)'] = 'C_admin_auction/hapus';
 //ADMIN/SELLER AUCTION
 
+//BID AUCTION
+//BID AUCTION
+
 //PRODUK GAMBAR
 	$route['toko-produk-gambar'] = "C_admin_images/index";
 	$route['toko-produk-gambar/(:any)'] = 'C_admin_images/index';
@@ -186,6 +189,7 @@ $route['place-new-bid/(:any)'] = 'C_public_produk/place_bid';
 $route['bid-placed'] = "C_public_produk/bid_placed";
 $route['bid-placed/(:any)'] = 'C_public_produk/bid_placed';
 //PUBLIC
+
 
 
 
