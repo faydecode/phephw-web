@@ -1,0 +1,977 @@
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.4 -->
+    <link rel="stylesheet" href="<?=base_url();?>assets/adminlte/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="<?=base_url();?>assets/adminlte/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="<?=base_url();?>assets/adminlte/dist/css/skins/_all-skins.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?=base_url();?>assets/adminlte/plugins/select2/select2.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+        
+		
+    		<style type="text/css">
+    		.labelfrm {
+    			display:block;
+    			font-size:small;
+    			margin-top:5px;
+    		}
+    		.error {
+    			font-size:small;
+    			color:red;
+    		}
+    		</style>
+    		
+    		<script type="text/javascript" src="<?=base_url();?>assets/admin/js/jquery.validate.min.js"></script>
+    		
+    		<script type="text/javascript">
+    		$(document).ready(function() {
+    			$('.frm-input').validate();
+                
+                $('.confirm-btn').click(function(){
+    			var answer = confirm(jQuery(this).attr('title'));
+                return answer;
+                });
+    		});
+            </script>
+            
+            <script type="text/javascript">
+                var htmlobjek;
+                $(document).ready(function()
+                {	
+					$('#operasi').attr('class', 'active treeview');
+					$('#operasi-diskon').attr('class', 'active treeview');
+					$('#operasi-diskon-produk').attr('class', 'active treeview');
+					
+                    $("#nama").change(function()
+                    //$("#simpan").click(function()
+                    {  
+                        var nama = $("#nama").val();
+                        $("#pesan").html("<img src='<?=base_url();?>assets/global/loading.gif'>Cek nama ...");
+               
+                        if(nama=='')
+                        {
+                          $("#pesan").html('<img src="<?=base_url();?>assets/global/salah.png"> Nama diskon tidak boleh kosong');
+                          $("#nama").css('border', '3px #C33 solid');
+                        }
+						else
+						$.ajax({type: "POST", url: "<?=base_url();?>index.php/C_admin_diskon_produk/cek_diskon/", data: "nama="+nama, success:function(data)
+                        { 
+                        	if(data==0 || ($("#nama").val() == $("#cek_kode").val()))
+                            //if(data==0)
+                        	  {
+                        	  	$("#pesan").html('<img src="<?=base_url();?>assets/global/true.png">');
+                                $("#nama").css('border', '3px #090 solid');
+                                $("#btnsimpan").attr("disabled", false);
+                            }
+                              else
+                              {
+                              	$("#pesan").html('<img src="<?=base_url();?>assets/global/salah.png"> Nama diskon telah digunakan');
+                              	$("#nama").css('border', '3px #C33 solid');
+                                $("#btnsimpan").attr("disabled", true);
+                              }
+                              
+                        } 
+                        });
+                     });
+					
+					
+					
+					
+					$("#optr_diskon").change(function()
+					{  
+						
+						var optr_diskon = $("#optr_diskon").val();
+						
+						if(optr_diskon == "GET PRODUK")
+						{
+							$("#besar").val(0);
+							$("#besar").attr("disabled", true);
+						} else {
+							$("#besar").attr("disabled", false);
+						}
+						
+					});
+					
+					
+					$("#cari_produk").click(function()
+					//$("#simpan").click(function()
+					{  
+						var cari = $("#cari").val();
+						//if (cari != '')
+						//{
+							$("#tb_cari_produk").html("<img src='<?=base_url();?>assets/global/loading.gif'>Cek Data ...");
+							$.ajax({type: "POST", url: "<?=base_url();?>C_admin_produk/cek_table_produk/", data: "cari="+cari, success:function(data)
+							{ 
+								if(data!=0)
+								{
+									$("#tb_cari_produk").html(data);
+								} 
+								else
+								{
+									$("#tb_cari_produk").html("Tidak Ada Data Yang Ditampilkan");
+								}
+							}
+							});
+						//}
+					});
+                });
+            </script>
+            
+     <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            outlet
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="#"><i class="fa fa-dashboard"></i> Diskon</a></li>
+            <li class="active"> Diskon Produk</li>
+            
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- =========================================================== -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <!-- <div class="box box-warning collapsed-box box-solid"> -->
+			  <div id="box-form" class="box box-warning collapsed-box box-solid" id="box-form">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Formulir Input Diskon Produk</h3>
+                  <div class="box-tools pull-right">
+                    <button id="change-btn" class="btn btn-box-tool change-btn" data-widget="collapse"><i id="icon-stat" class="fa fa-plus"></i></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  
+                  
+                  <!-- ISI FORM -->
+                        <form role="form" action="<?=base_url();?>admin-diskon-produk-simpan<?php echo '?'.http_build_query($_GET); ?>" method="post" class="frm-input" enctype="multipart/form-data">
+                          <input type="hidden" name="stat_edit" id="stat_edit"/>
+                          <div class="box-body">
+                            
+							<div class="form-group">
+                              <label for="nama">Nama Diskon</label>
+                              <input type="hidden" id="cek_kode" name="cek_kode" />
+                              <input type="text" id="nama" name="nama"  maxlength="35" class="required form-control" size="35" alt="Nama Diskon" title="Nama Diskon" placeholder="Nama Diskon"/><span id="pesan"></span>
+                            </div>
+							
+							
+							
+							<div class="form-group">
+								<label for="kode">Kode Produk</label>
+								<div class="input-group input-group-md">
+									<input type="hidden" id="id_produk" name="id_produk" />
+									<input type="text" id="kode" name="kode"  maxlength="35" class="required form-control" size="35" alt="kode" title="Kode" placeholder="*Kode Produk" disabled="true"/>
+									<span class="input-group-btn">
+									<button class="btn btn-info btn-flat" type="button" title="Cari Produk" data-toggle="modal" data-target="#myModal">...</button>
+									</span>
+								</div><!-- /input-group<br />-->
+							</div>
+							
+			
+							<div class="form-group">
+							<label for="nama2">Nama Produk</label>
+							<input type="text" id="nama2" name="nama2"  maxlength="35" class="required form-control" size="35" alt="Nama Produk" title="Nama Produk" placeholder="*Nama Produk" disabled="true"/>
+							</div>							
+                            
+							
+							<div class="form-group">
+                              <label for="kategori">Diskon Berupa</label>
+                              <select name="optr_diskon" id="optr_diskon" class="required form-control select2" title="Diskon Berupa">
+                                <option value="">--Pilih Jenis--</option>                                
+                                <option value="%">Persen</option>;
+                                <option value="C">Nominal</option>;
+								<option value="GET PRODUK">GET PRODUK</option>;
+                                </select>
+                            </div>
+
+							<div class="form-group">
+                              <label for="kat_member">Kategori Member</label>
+                              <select name="kat_member" id="kat_member" class="required form-control select2" title="Kategori member">
+                                <option value="">--Pilih Kategori--</option>
+                                <?php
+                                	if (!empty($list_kat_member))
+                                    {
+                                    	$list_result = $list_kat_member->result();
+                                    	foreach($list_result as $row)
+                                        {
+                                            echo '<option value="'.$row->id_kat_costumer.'">'.$row->nama_kat_costumer.'</option>';
+                                        }
+                                     }
+                                 ?>
+                                </select>
+                            </div>
+							
+							<div class="form-group">
+                              <label for="satuan">Satuan</label>
+                              <select name="satuan" id="satuan" class="required form-control select2" title="Satuan">
+                                <option value="">--Pilih Satuan--</option>
+                                <?php
+                                	if (!empty($list_satuan))
+                                    {
+                                    	$list_result = $list_satuan->result();
+                                    	foreach($list_result as $row)
+                                        {
+                                            echo '<option value="'.$row->kode_satuan.'">'.$row->kode_satuan.'</option>';
+                                        }
+                                     }
+                                 ?>
+                                </select>
+                            </div>
+							
+							
+							
+							<div class="form-group">
+                              <label for="kategori">Pembelian Berupa</label>
+                              <select name="jenis" id="jenis" class="required form-control select2" title="Jenis Diskon">
+                                <option value="">--Pilih Jenis--</option>                                
+                                <option value="S">Satuan</option>;
+                                <option value="C">Nominal</option>;
+                                </select>
+                            </div>
+							
+						
+							<div class="form-group">
+							<label for="besar">Besar Diskon</label>
+							<input type="text" id="besar" name="besar" onkeypress="return isNumberKey(event)"  maxlength="35" class="required form-control" size="35" alt="besar Diskon" title="Besar Diskon" placeholder="*Besar Diskon"/>
+							</div>
+							
+							<div class="form-group">
+							<label for="harga">Besar Pembelian</label>
+							<input type="text" id="harga" name="harga" onkeypress="return isNumberKey(event)" maxlength="35" class="required form-control" size="35" alt="Besar Pembelian" title="Besar Pembelian" placeholder="*Besar Pembelian"/>
+							</div>
+                            
+                          	<div class="form-group">
+                              <label for="kondisi">Kondisi</label>
+                              <select name="kondisi" id="kondisi" class="required form-control select2" title="kondisi">
+                                <option value="">--Pilih Kondisi--</option>                                
+                                <option value="==">==</option>;
+                                <option value=">=">>=</option>;
+								<option value="<="><=</option>;
+								<option value=">">></option>;
+								<option value="<"><</option>;
+                                </select>
+                            </div>
+							
+							<div class="form-group">
+								<label for="kondisi">Tanggal Berlaku</label>
+								 <div class="row">
+		
+									<div class="col-lg-6">
+									  <div class="input-group">
+											<span class="input-group-addon">
+											  <i class="fa fa-calendar"></i>
+											</span>
+											
+										<input type="text" id="tgl_mulai" name="tgl_mulai" class="datemask_mysql required form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+									  </div>
+									  				
+									  <!-- /input-group -->
+									</div>
+		
+									<!-- /.col-lg-6 -->
+									
+									<div class="col-lg-6">
+										
+									  <div class="input-group">
+											<span class="input-group-addon">
+											  <i class="fa fa-calendar"></i>
+											</span>
+										<input type="text" id="tgl_akhir" name="tgl_akhir" class="datemask_mysql required form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+									  </div>
+									  <!-- /input-group -->
+									</div>
+									<!-- /.col-lg-6 -->
+								  </div>
+							</div>
+								  <!-- /.row -->
+							
+							
+							<div class="form-group">
+                              <label for="keterangan">Keterangan</label>
+                              <textarea name="keterangan" id="keterangan" class="form-control" title="keterangan Lengkap" placeholder="Keterangan"></textarea>
+                            </div>
+							
+                          </div><!-- /.box-body -->
+        
+                          <div class="box-footer">
+                            <button type="reset" class="btn btn-default">Batal</button>
+                            <button type="submit" id="btnsimpan" class="confirm-btn btn btn-primary" title="Simpan Data Karyawan ?">Simpan</button>
+                          </div>
+                        </form>
+                    <!-- ISI FORM -->
+                  
+                  
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+              
+              
+              <!-- Perbatasan table dan form -->
+					
+					<div class="box">
+						<div class="box-header">
+						<h3 class="box-title">Table outlet</h3>
+							<div class="pull-right">
+								<!-- <form action="<?=base_url();?>admin/pendaftaran-klikode-cari" method="post" class="frm-cari"> -->
+								<form action="<?=base_url();?>admin-outlet" method="get" class="frm-cari">
+									<table>
+										<tr>
+											<!-- <td>Berdasarkan</td><td>:</td> -->
+											<!-- <td>
+												<select name="berdasarkan" title="Cari Berdasarkan" class="form-control">
+													<option value=""><?php if (!empty($_GET['berdasarkan'])){echo $_GET['berdasarkan'];} ?></option>
+													<option value="spesialisasi">Spesialisasi</option>
+													<option value="pendidikan">Pendidikan</option>
+												</select>
+											</td> -->
+											<td>
+												<!-- <input type="text" name="cari"  maxlength="35" class="text form-control" size="35" alt="tlp" title="Cari data" placeholder="...Cari" value="<?php if (!empty($_GET['berdasarkan'])){echo $_GET['cari'];} ?>"/> -->
+												<input type="text" name="cari"  maxlength="35" class="text form-control" size="35" alt="tlp" title="Cari data" placeholder="...Cari" value="<?php if (!empty($_GET['cari'])){echo $_GET['cari'];} ?>"/>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div><!-- /.box-header -->
+						<div class="box-body">
+						
+						
+						<?php
+								if(!empty($list_diskon))
+								{
+									echo'<table width="100%" id="example2" class="table table-bordered table-hover">';
+										echo '<thead>
+	<tr>';
+													echo '<th width="5%">No</th>';
+													echo '<th width="15%">Nama Diskon</th>';
+													echo '<th width="20%">Nama Produk</th>';
+													echo '<th width="15%">Kategori Member</th>';
+													echo '<th width="10%">Dari</th>';
+													echo '<th width="10%">Sampai</th>';
+													echo '<th width="20%">Aksi</th>';
+										echo '</tr>
+	</thead>';
+										$list_result = $list_diskon->result();
+										$no =$this->uri->segment(2,0)+1;
+										echo '<tbody>';
+										foreach($list_result as $row)
+										{
+											echo'<tr>';
+												echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_h_diskon.'" />'.$no.'</td>';
+												/*if ($row->avatar == "")
+												{
+													$src = base_url().'assets/global/outlet/loading.gif';
+													echo '<td><img id="img_'.$no.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$no.'" value="'.$src.'" />';
+												}
+												else
+												{
+													$src = base_url().'assets/global/outlet/'.$row->avatar;
+													echo '<td><img id="img_'.$no.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$no.'" value="'.$src.'" />';
+												}
+												*/
+												
+												
+												echo'<td><input type="hidden" id="nama_diskon_'.$no.'" value="'.$row->nama_diskon.'" />'.$row->nama_diskon.'</td>';
+												echo'<td><input type="hidden" id="nama_produk_'.$no.'" value="'.$row->nama_produk.'" />'.$row->nama_produk.'</td>';
+												echo'<td><input type="hidden" id="nama_kat_costumer_'.$no.'" value="'.$row->nama_kat_costumer.'" />'.$row->nama_kat_costumer.'</td>';
+												echo'<td><input type="hidden" id="dari_'.$no.'" value="'.$row->dari.'" />'.$row->dari.'</td>';
+												echo'<td><input type="hidden" id="sampai_'.$no.'" value="'.$row->sampai.'" />'.$row->sampai.'</td>';
+												
+												echo'<input type="hidden" id="id_kat_costumer_'.$no.'" value="'.$row->id_kat_costumer.'" />';
+												echo'<input type="hidden" id="optr_diskon_'.$no.'" value="'.$row->optr_diskon.'" />';
+												echo'<input type="hidden" id="kode_produk_'.$no.'" value="'.$row->kode_produk.'" />';
+												echo'<input type="hidden" id="id_produk_'.$no.'" value="'.$row->id.'" />';
+												echo'<input type="hidden" id="group_by_'.$no.'" value="'.$row->group_by.'" />';
+												echo'<input type="hidden" id="besar_diskon_'.$no.'" value="'.$row->besar_diskon.'" />';
+												echo'<input type="hidden" id="ket_diskon_'.$no.'" value="'.$row->ket_diskon.'" />';
+												echo'<input type="hidden" id="satuan_'.$no.'" value="'.$row->satuan.'" />';
+												echo'<input type="hidden" id="satuan_diskon_'.$no.'" value="'.$row->satuan_diskon.'" />';
+												echo'<input type="hidden" id="id_kat_costumer_'.$no.'" value="'.$row->id_kat_costumer.'" />';
+												echo'<input type="hidden" id="optr_kondisi_'.$no.'" value="'.$row->optr_kondisi.'" />';
+												echo'<input type="hidden" id="besar_pembelian_'.$no.'" value="'.$row->besar_pembelian.'" />';
+
+	if($row->optr_diskon == "GET PRODUK")
+	{
+												
+												echo'<td>
+		<a class="btn btn-success btn-sm" href="'.base_url().'admin-get-produk/'.$row->id_h_diskon.'">Produk Diskon</a>
+		
+		<button type="button" onclick="view('.$no.')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal2">
+			view
+		</button>
+		
+		<a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="edit('.$no.')" title = "Ubah Data '.$row->nama_diskon.'" alt = "Ubah Data '.$row->nama_diskon.'">Edit</a>
+		
+		<a class="confirm-btn btn btn-danger btn-sm" href="'.base_url().'admin-diskon-produk-hapus/'.$row->id_h_diskon.'?'.http_build_query($_GET).'" title = "Hapus Data '.$row->nama_diskon.'" alt = "Hapus Data '.$row->nama_diskon.'">Hapus</a>
+		
+		</td>';
+	} else {
+														echo'<td>
+
+		<button type="button" onclick="view('.$no.')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal2">
+			view
+		</button>
+		
+		<a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="edit('.$no.')" title = "Ubah Data '.$row->nama_diskon.'" alt = "Ubah Data '.$row->nama_diskon.'">Edit</a>
+		
+		<a class="confirm-btn btn btn-danger btn-sm" href="'.base_url().'admin-diskon-produk-hapus/'.$row->id_h_diskon.'?'.http_build_query($_GET).'" title = "Hapus Data '.$row->nama_diskon.'" alt = "Hapus Data '.$row->nama_diskon.'">Hapus</a>
+		
+		</td>';
+	}
+												
+											echo'</tr>';
+											$no++;
+										}
+										
+										echo '</tbody>';
+									echo'</table>';
+								}
+								else
+								{
+									echo'<center>';
+									echo'Tidak Ada Data Yang Ditampilkan !';
+									echo'</center>';
+								}
+							?>
+						<center>
+                        <div class="halaman"><?php echo $halaman;?></div>
+                        </center>
+						</div><!-- /.box-body -->
+					</div><!-- /.box -->
+					
+					
+					<!-- Show MOdal - Produk -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="myModalLabel">Data produk</h4>
+							</div>
+							<div class="modal-body">
+								
+								
+								<!-- ISI BODY -->
+								<div class="box">
+									<div class="box-header">
+									<h3 class="box-title">Table List Produk</h3>
+										<div class="pull-right">
+											<!-- <form action="<?=base_url();?>admin/pendaftaran-klinik-cari" method="post" class="frm-cari"> -->
+											<!--<form action="#" method="get" class="frm-cari">-->
+												<table>
+													<tr>
+														<td>
+															<input type="text" id="cari" name="cari"  maxlength="35" class="text form-control" size="35" alt="tlp" title="Cari data" placeholder="...Cari" value="<?php if (!empty($_GET['berdasarkan'])){echo $_GET['cari'];} ?>"/>
+														</td>
+														<td><a href="javascript:void(0)" id="cari_produk" class="btn btn-success btn-sm" onclick="" title = "Cari Produk" >Cari</a></td>
+													</tr>
+												</table>
+											<!-- </form> -->
+										</div>
+									</div><!-- /.box-header -->
+									<div  id="tb_cari_produk" class="box-body">
+										<?php
+										if(!empty($list_produk))
+										{
+											echo'<table width="100%" id="example2" class="table table-bordered table-hover">';
+												echo '<thead>
+	<tr>';
+															echo '<th width="5%">No</th>';
+															//echo '<th width="15%">Avatar</th>';
+															echo '<th width="20%">Kode</th>';
+															echo '<th width="35%">Nama</th>';
+															echo '<th width="5%">Aksi</th>';
+												echo '</tr>
+	</thead>';
+												$list_result = $list_produk->result();
+												$no=0;
+												echo '<tbody>';
+												foreach($list_result as $row)
+												{
+													echo'<tr>';
+														echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_produk.'" />'.$no.'</td>';
+														/*if ($row->avatar == "")
+														{
+															$src = base_url().'assets/global/produk/loading.gif';
+															echo '<td><img id="img_'.$row->id_produk.'"  width="75px" height="75px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+															
+															echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+														}
+														else
+														{
+															$src = base_url().'assets/global/produk/'.$row->avatar;
+															echo '<td><img id="img_'.$row->id_produk.'"  width="75px" height="75px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+															
+															echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+														}*/
+														echo'<td><input type="hidden" id="kode_'.$no.'" value="'.$row->kode_produk.'" />'.$row->kode_produk.'</td>';
+														echo'<td><input type="hidden" id="nama2_'.$no.'" value="'.$row->nama_produk.'" />'.$row->nama_produk.'</td>';
+										
+														
+														echo'<td>
+	<button type="button" onclick="insert('.$no.')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Pilih</button>
+	</td>';
+														
+													echo'</tr>';
+													$no++;
+												}
+												
+												echo '</tbody>';
+											echo'</table>';
+										}
+										else
+										{
+											echo'<center>';
+											echo'Tidak Ada Data Yang Ditampilkan !';
+											echo'</center>';
+										}
+										?>
+									</div><!-- /.box-body -->
+								</div><!-- /.box -->
+								<!-- ISI BODY -->
+								
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+							</div>
+							</div>
+						</div>
+						</div>
+
+					<!-- Show MOdal - Produk-->
+					
+					
+					
+					<!-- Show MOdal View -->
+                      <div class="modal fade modal-primary" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Detail Diskon</h4>
+                              </div>
+                              <div class="modal-body">
+                                <center>
+                                    <span id="img2"></span>
+                                </center>
+                                <table>
+                                    <tr>
+                                        <td></td><td></td><td></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Nama Diskon</td><td>:</td><td><span id="nama_diskon2"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kode Produk</td><td>:</td><td><span id="kode2"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nama Produk</td><td>:</td><td><span id="nama3"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kategori Member</td><td>:</td><td><span id="kategori2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Satuan</td><td>:</td><td><span id="satuan2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Diskon Berupa</td><td>:</td><td><span id="jenis2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Besar Diskon</td><td>:</td><td><span id="besar2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Besar Pembelian</td><td>:</td><td><span id="harga2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Kondisi Pembelian</td><td>:</td><td><span id="kondisi2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Mulai Diskon</td><td>:</td><td><span id="tgl_mulai2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Akhir Diskon</td><td>:</td><td><span id="tgl_akhir2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Keterangan</td><td>:</td><td><span id="keterangan2"></span></td>
+                                    </tr>
+                                </table>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                    <!-- Show MOdal View -->
+					
+					
+					<!-- Show MOdal Produk Diskon -->
+					
+					<div class="example-modal" >
+						<div class="modal fade" id="modalGambar">
+						  <div class="modal-dialog">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">Tambah Image Produk</h4>
+							  </div>
+							  <div class="modal-body">
+									<div class="box">
+									<div class="box-body">
+									<!--<form role="form" action="<?=base_url();?>C_admin_images/simpan/" method="post" class="frm-input" enctype="multipart/form-data">-->
+									<input type="hidden" name="stat_edit2" id="stat_edit2"/>
+									
+											<div class="form-group">
+											  <label for="foto">Gambar</label>
+											  <span id="img_edit"></span>
+											  <input type="file" id="foto" name="foto">
+											  <p class="help-block">Pilih untuk memasukan gambar</p>
+											</div>
+											
+											<input type="hidden" id="id_gambar" name="id_gambar" />
+											<input type="hidden" id="id_produk_gambar" name="id_produk_gambar" />
+											
+											<div class="form-group">
+											<label for="nama_gambar">Nama Gambar</label>
+											<input type="hidden" id="cek_gambar" name="cek_gambar" />
+											<input type="text" id="nama_gambar" name="nama_gambar"  maxlength="35" class="required form-control" size="35" alt="nama" title="Nama Gambar" placeholder="*Nama Gambar"/><span id="pesan_gambar"></span>
+											</div>
+											
+											<button id="btnsimpan2" onclick="simpanGambar()"  class="confirm-btn btn btn-primary" title="Simpan Data Gambar">Submit</button>
+											
+											<!--<div class="form-group">
+											<label for="ket_gambar">Keterangan</label>
+											<textarea name="ket_gambar" id="ket_gambar" class="required form-control" title="Keterangan" placeholder="*Keterangan"></textarea>
+											</div>-->
+										
+										<!--<div class="box-footer">
+											<button type="reset" class="btn btn-default">Batal</button>
+											<button type="submit" id="btnsimpan" class="confirm-btn btn btn-primary" title="Simpan Data produk">Submit</button>
+										</div>-->
+									</form>
+											
+										</div><!-- /.box-body -->
+									</div>
+									
+									
+								<!-- ISI FORM -->
+									
+									<div class="box">
+									
+									<div class="box-body" id="tb_cari_gambar">
+						<?php
+								if(!empty($list_image))
+								{
+									echo'<table width="100%" id="example2" class="table table-bordered table-hover">';
+										echo '<thead>
+													<tr>';
+													echo '<th width="5%">No</th>';
+													echo '<th width="10%">Gambar</th>';
+													echo '<th width="20%">Nama Gambar</th>';
+													echo '<th width="20%">Aksi</th>';
+												echo '</tr>
+											</thead>';
+										$list_result = $list_image->result();
+										echo '<tbody>';
+										foreach($list_result as $row)
+										{
+											echo'<tr>';
+												echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_produk.'" />'.$no.'</td>';
+												if ($row->avatar == "")
+												{
+													$src = base_url().'assets/global/produk/loading.gif';
+													echo '<td><img id="img_'.$row->id_produk.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+												}
+												else
+												{
+													$src = base_url().'assets/global/produk/'.$row->avatar;
+													echo '<td><img id="img_'.$row->id_produk.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+												}
+												
+												echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_produk.'" />'.$no.'</td>';
+												
+																						echo'<td>
+												
+	<a href="javascript:void(0)" class="btn" onclick="editGambar('.$no.')"><i class="fa fa-trash-o"></i></a>
+	
+	<a href="javascript:void(0)" class="btn" onclick="hapusGambar('.$no.')"><i class="fa fa-trash-o"></i></a>
+	
+	</td>';
+
+	
+											echo'</tr>';
+										
+										}
+										
+										echo '</tbody>';
+									echo'</table>';
+								}
+								else
+								{
+									echo'<center>';
+									echo'';
+									echo'</center>';
+								}
+												
+	
+						?>
+									
+									</div>
+									</div>
+
+							  </div>
+							  <div class="modal-footer">
+								<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+								<!--<button type="button" class="btn btn-primary">Save changes</button>-->
+							  </div>
+							</div>
+							<!-- /.modal-content -->
+						  </div>
+						  <!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+					  </div>
+					  <!-- Show MOdal Produk Diskon -->
+					
+					
+					
+					
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+          <!-- =========================================================== -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+            
+    		
+		
+<script type='text/javascript'>
+	
+	function view(id)
+	{
+        $('#nama_diskon2').html($('#nama_diskon_'+id).val());
+		$('#kode2').html($('#kode_produk_'+id).val());
+        $('#nama3').html($('#nama_produk_'+id).val());
+        $('#kategori2').html($('#nama_kat_costumer_'+id).val());
+		$('#satuan2').html($('#satuan_diskon_'+id).val());
+		$('#jenis2').html($('#satuan_'+id).val());
+		$('#besar2').html($('#besar_diskon_'+id).val());
+		$('#harga2').html($('#besar_pembelian_'+id).val());
+		$('#kondisi2').html($('#optr_kondisi_'+id).val());
+		$('#tgl_mulai2').html($('#dari_'+id).val());
+		$('#tgl_akhir2').html($('#sampai_'+id).val());
+		$('#tgl_akhir2').html($('#sampai_'+id).val());
+		$('#keterangan2').html($('#ket_diskon_'+id).val());
+        
+		//alert (k_kat);
+	}
+	
+	
+	function edit(id)  
+	{     
+		alert("Mode Perubahan Data, Silahkan Cek Formulir Isian !");
+		$('input[name=stat_edit]').val($('#no_'+id).val()); 
+		$('input[name=nama]').val($('#nama_diskon_'+id).val());
+		$('input[name=cek_kode]').val($('#nama_diskon_'+id).val()); 
+		$('input[name=id_produk]').val($('#id_produk_'+id).val());
+		$('input[name=kode]').val($('#kode_produk_'+id).val()); 
+		$('input[name=nama2]').val($('#nama_produk_'+id).val());
+		$('input[name=besar]').val($('#besar_diskon_'+id).val()); 
+		$('input[name=harga]').val($('#besar_pembelian_'+id).val());
+		$('input[name=tgl_mulai]').val($('#dari_'+id).val()); 
+		$('input[name=tgl_akhir]').val($('#sampai_'+id).val());
+
+		document.getElementById("keterangan").value = $('#ket_diskon_'+id).val();
+		
+		document.getElementById("satuan").options.item(0).text = $('#satuan_diskon_'+id).val();
+		document.getElementById("satuan").options.item(0).value = $('#satuan_diskon_'+id).val();
+		
+		if($('#optr_diskon_'+id).val() == "%")
+		{		
+			document.getElementById("optr_diskon").options.item(0).text = "Persen";
+			$("#besar").attr("disabled", false);
+		} else if($('#optr_diskon_'+id).val() == "C")
+		{
+			document.getElementById("optr_diskon").options.item(0).text = "Nominal";
+			$("#besar").attr("disabled", false);
+		} else {
+			document.getElementById("optr_diskon").options.item(0).text = $('#optr_diskon_'+id).val();
+			$("#besar").attr("disabled", true);
+		}
+		document.getElementById("optr_diskon").options.item(0).value = $('#optr_diskon_'+id).val();
+		
+		if($('#satuan_'+id).val() == "S")
+		{		
+			document.getElementById("jenis").options.item(0).text = "Satuan";
+		} else {
+			document.getElementById("jenis").options.item(0).text = "Nominal";
+		}
+		document.getElementById("jenis").options.item(0).value = $('#satuan_'+id).val();
+		
+		document.getElementById("kat_member").options.item(0).text = $('#nama_kat_costumer_'+id).val();
+		document.getElementById("kat_member").options.item(0).value = $('#id_kat_costumer_'+id).val();
+		
+		document.getElementById("kondisi").options.item(0).text = $('#optr_kondisi_'+id).val();
+		document.getElementById("kondisi").options.item(0).value = $('#optr_kondisi_'+id).val();
+		
+		$('#box-form').attr('class', 'box box-warning ellapsed-box box-solid');
+		
+	}
+	
+	function insert(id)
+	{
+		
+		$('input[name=id_produk]').val($('#no_'+id).val());
+		$('input[name=kode]').val($('#kode_'+id).val());
+        $('input[name=nama2]').val($('#nama2_'+id).val());
+		
+		var id = $('#no_'+id).val();
+
+		//$("#tb_cari_produk").html("<img src='<?=base_url();?>assets/global/loading.gif'>Cek Data ...");
+		$.ajax({type: "POST", url: "<?=base_url();?>C_admin_diskon_produk/get_satuan_produk/", data: "id="+id, success:function(data)
+		{ 
+			if(data!=0)
+			{
+				$("#satuan").html(data);
+				//alert("test");
+			} 
+			else
+			{
+				
+			}
+		}
+		});
+
+		
+		
+	}
+	
+	function isNumberKey(evt)
+	{
+    	var charCode = (evt.which) ? evt.which : event.keyCode
+    	if (charCode > 31 && (charCode < 48 || charCode > 57))
+    	
+    	return false;
+    	return true;
+	}
+	
+	
+	
+	function FormatCurrency(objNum)
+	{
+	   var num = objNum.value
+	   var ent, dec;
+	   if (num != '' && num != objNum.oldvalue)
+	   {
+		 num = HapusTitik(num);
+		 if (isNaN(num))
+		 {
+		   objNum.value = (objNum.oldvalue)?objNum.oldvalue:'';
+		 } else {
+		   var ev = (navigator.appName.indexOf('Netscape') != -1)?Event:event;
+		   if (ev.keyCode == 190 || !isNaN(num.split('.')[1]))
+		   {
+			 alert(num.split('.')[1]);
+			 objNum.value = TambahTitik(num.split('.')[0])+'.'+num.split('.')[1];
+		   }
+		   else
+		   {
+			 objNum.value = TambahTitik(num.split('.')[0]);
+		   }
+		   objNum.oldvalue = objNum.value;
+		 }
+	   }
+	}
+	function HapusTitik(num)
+	{
+	   return (num.replace(/\./g, ''));
+	}
+
+	function TambahTitik(num)
+	{
+	   numArr=new String(num).split('').reverse();
+	   for (i=3;i<numArr.length;i+=3)
+	   {
+		 numArr[i]+='.';
+	   }
+	   return numArr.reverse().join('');
+	} 
+			
+	function formatCurrency(num) {
+	   num = num.toString().replace(/\$|\./g,'');
+	   if(isNaN(num))
+	   num = "0";
+	   sign = (num == (num = Math.abs(num)));
+	   num = Math.floor(num*100+0.50000000001);
+	   cents = num0;
+	   num = Math.floor(num/100).toString();
+	   for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+	   num = num.substring(0,num.length-(4*i+3))+'.'+
+	   num.substring(num.length-(4*i+3));
+	   return (((sign)?'':'-') + num);
+	}
+
+
+</script>
+
+
+
+
+ 
+	
+	
+    <!-- Bootstrap 3.3.4 -->
+    <script src="<?=base_url();?>assets/adminlte/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="<?=base_url();?>assets/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="<?=base_url();?>assets/adminlte/plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="<?=base_url();?>assets/adminlte/dist/js/app.min.js"></script>
+    <!-- Page script -->
+    
+	    <!-- InputMask -->
+    <script src="<?=base_url();?>/assets/adminlte/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="<?=base_url();?>/assets/adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="<?=base_url();?>/assets/adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+	
+	<script>
+		
+	 $(function () {
+        //Initialize Select2 Elements
+        //$(".select2").select2();
+
+        //Datemask yyyy-mm-dd
+        $(".datemask_mysql").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
+	});
+	
+	
+	</script>

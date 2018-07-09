@@ -1,0 +1,528 @@
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!-- Bootstrap 3.3.4 -->
+	<link rel="stylesheet" href="<?=base_url();?>assets/adminlte/bootstrap/css/bootstrap.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="<?=base_url();?>assets/adminlte/dist/css/AdminLTE.min.css">
+	<!-- AdminLTE Skins. Choose a skin from the css/skins
+	folder instead of downloading all of them to reduce the load. -->
+	<link rel="stylesheet" href="<?=base_url();?>assets/adminlte/dist/css/skins/_all-skins.min.css">
+	<!-- Select2 -->
+	<link rel="stylesheet" href="<?=base_url();?>assets/adminlte/plugins/select2/select2.min.css">
+	
+	<!-- iCheck for checkboxes and radio inputs -->
+	<link rel="stylesheet" href="<?=base_url();?>assets/adminlte/plugins/iCheck/all.css">
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+		
+			<style type="text/css">
+			.labelfrm {
+				display:block;
+				font-size:small;
+				margin-top:5px;
+			}
+			.error {
+				font-size:small;
+				color:red;
+			}
+			</style>
+			
+			<script type="text/javascript" src="<?=base_url();?>assets/admin/js/jquery.validate.min.js"></script>
+			
+			<script type="text/javascript">
+    		$(document).ready(function() {
+    			$('.frm-input').validate();
+                
+                $('.confirm-btn').click(function(){
+    			var answer = confirm(jQuery(this).attr('title'));
+                return answer;
+                });
+    		});
+            </script>
+			
+			<script type="text/javascript">
+				var htmlobjek;
+				$(document).ready(function()
+				{	
+					$('#transaksi').attr('class', 'active treeview');
+					$('#transaksi-penjualan').attr('class', 'active treeview');
+					
+					$("#btn-cari").click(function()
+					//$("#simpan").click(function()
+					{  
+						var cari = $("#cari2").val();
+						//if (cari != '')
+						//{
+						
+							$("#tb_cari_mitra").html("<img src='<?=base_url();?>assets/global/loading.gif'>Cek Data ...");
+							$.ajax({type: "POST", url: "<?=base_url();?>C_admin_distribusi/cek_table_mitra/", data: "cari="+cari, success:function(data)
+							{ 
+								//alert(data);
+								if(data!=0)
+								{
+									$("#tb_cari_mitra").html(data);
+								} 
+								else
+								{
+									$("#tb_cari_mitra").html("Tidak Ada Data Yang Ditampilkan");
+								}
+							}
+							});
+						//}
+					});
+					
+				});
+			</script>
+			
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+		<h1>
+			Distribusi Order
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active"> Distribusi Order</li>
+			
+		</ol>
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+		<!-- =========================================================== -->
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">Data Pelanggan</h3>
+							
+					</div><!-- /.box-header -->
+					<div class="box-body">
+					
+						
+							<div class="form-group">
+								<label for="nama">Penerima Barang</label>
+								<input type="text" id="penerima" name="penerima" value="<?php if(!empty($get_pelanggan)) echo $get_pelanggan->nama_lengkap; ?>"  maxlength="35" class="required form-control" size="35" alt="Nama Penerima" title="Nama Penerima" placeholder="*Nama Penerima" disabled="true"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="nama">Alamat Penerima</label>
+								<!--<input type="text" id="alamat_penerima" name="alamat_penerima" value="<?php if(!empty($get_pelanggan)) echo $get_pelanggan->detail_alamat; ?>"  maxlength="35" class="required form-control" size="35" alt="Alamat Penerima" title="Alamat Penerima" placeholder="*Alamat Penerima" disabled="true"/>-->
+								<textarea name="alamat_penerima" id="alamat_penerima" class="form-control" disabled=true title="Alamat Pelanggan" placeholder="*Alamat"><?php if(!empty($get_pelanggan)) echo $get_pelanggan->detail_alamat; ?></textarea>
+							</div>
+					
+					</div>
+				</div>
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">Pilih Mitra Terdekat</h3>
+							
+					</div><!-- /.box-header -->
+					<div class="box-body">
+						<div class="form-group">
+							<label for="kode">Kode Mitra</label>
+							<div class="input-group input-group-md">
+							
+								<input type="hidden" id="id_h_penjualan" name="id_h_penjualan" value="<?php echo $this->uri->segment(2,0); ?>" />
+								
+								<input type="hidden" id="id_outlet" name="id_outlet" value="<?php if(!empty($get_mitra)){ echo $get_mitra->id_outlet;} ?>" />
+								
+								
+								<input type="text" id="kode" name="kode" value="<?php if(!empty($get_mitra)) echo $get_mitra->kode_outlet; ?>" maxlength="35" class="required form-control" size="35" alt="kode" title="Kode" placeholder="*Kode Mitra" disabled="true"/>
+								<span class="input-group-btn">
+								<button id="btn-produk" class="btn btn-info btn-flat" type="button" title="Cari Mitra" data-toggle="modal" data-target="#myModal">...</button>
+								</span>
+							</div><!-- /input-group<br />-->
+						</div>
+			
+						<div class="form-group">
+							<label for="nama">Nama Mitra</label>
+							<input type="text" id="nama" name="nama" value="<?php if(!empty($get_mitra)) echo $get_mitra->nama_outlet; ?>"  maxlength="35" class="required form-control" size="35" alt="Nama Mitra" title="Nama Mitra" placeholder="*Nama Mitra" disabled="true"/>
+						</div>
+						<div class="form-group">
+							<label for="ketua">Ketua/Pemilik</label>
+							<input type="text" id="ketua" name="ketua" value="<?php if(!empty($get_mitra)) echo $get_mitra->ketua_outlet; ?>" maxlength="35" class="required form-control" size="35" alt="Nama Produk" title="Ketua/Pemilik" placeholder="*Ketua/Pemilik" disabled="true"/>
+						</div>
+						<div class="form-group">
+							<label for="alamat">Alamat</label>
+							<input type="text" id="alamat" name="alamat" value="<?php if(!empty($get_mitra)) echo $get_mitra->alamat_outlet; ?>" maxlength="35" class="required form-control" size="35" alt="alamat" title="alamat" placeholder="*Alamat" disabled="true"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div id="map"></div>
+			</div>
+			
+			
+		</div><!-- /.row -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">Detail Produk per PO</h3>
+							
+						</div><!-- /.box-header -->
+						<div class="box-body">
+							<div id="tb_produk">
+							<?php
+								if(!empty($list_produk))
+								{
+									echo'<table width="100%" id="example2" class="table table-bordered table-hover">';
+										echo '<thead>
+											<tr>';
+											echo '<th width="5%">No</th>';
+											echo '<th width="10%">Kode</th>';
+											echo '<th width="30%">Nama Produk</th>';
+											echo '<th width="15%">Satuan</th>';
+											echo '<th width="15%">Jumlah</th>';
+											echo '<th width="20%">Aksi</th>';
+										echo '</tr>
+										</thead>';
+										$list_result = $list_produk->result();
+										$no=1;
+										echo '<tbody>';
+										foreach($list_result as $row)
+										{
+											echo'<tr>';
+												echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_d_penjualan.'" />'.$no.'</td>';
+												echo'<td><input type="hidden" id="kode_'.$no.'" value="'.$row->kode_produk.'" />'.$row->kode_produk.'</td>';
+												echo'<td><input type="hidden" id="nama_'.$no.'" value="'.$row->nama_produk.'" />'.$row->nama_produk.'</td>';
+												echo'<td><input type="hidden" id="satuan_'.$no.'" value="'.$row->satuan_jual.'" />'.$row->satuan_jual.'</td>';
+												echo'<td><input type="hidden" id="jumlah_'.$no.'" value="'.$row->jumlah.'" />'.$row->jumlah.'</td>';
+												
+												echo'<input type="hidden" id="id_produk_'.$no.'" value="'.$row->id_produk.'" />';
+												
+											if($row->stat != "0")
+											{
+												echo'<td><input id="chk_transfer_'.$no.'" type="checkbox" class="minimal-red" checked disabled /> Transfer</td>';
+											} else {
+												echo'<td><input id="chk_transfer_'.$no.'" type="checkbox" class="minimal-red"/> Transfer</td>';
+											}											
+											echo'</tr>';
+											$no++;
+										}
+										
+										echo '</tbody>';
+									echo'</table>';
+								}
+								else
+								{
+									echo'<center>';
+									echo'Tidak Ada Data Yang Ditampilkan !';
+									echo'</center>';
+								}
+							?>
+							</div>
+						</div><!-- /.box-body -->
+						<div class="box-footer">
+                        
+                            <button type="button" id="btnsimpan" onclick="simpanData()" class="btn btn-primary" title="Simpan Data?">Simpan</button>
+                         </div>
+					</div><!-- /.box -->
+			</div>
+		</div>
+		
+		
+		<!-- Show MOdal - TABLE 1 -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="myModalLabel">Data Mitra</h4>
+							</div>
+							<div class="modal-body">
+								
+								
+								<!-- ISI BODY -->
+								<div class="box">
+									<div class="box-header">
+									<h3 class="box-title">Table List Mitra</h3>
+										<div class="pull-right">
+												<table>
+													<tr>
+														<td>
+															<input type="text" id="cari2" name="cari2"  maxlength="35" class="text form-control" size="35" alt="tlp" title="Cari data" placeholder="...Cari" value="<?php if (!empty($_GET['cari'])){echo $_GET['cari'];} ?>"/>
+														</td>
+														<td><a href="javascript:void(0)" id="btn-cari" class="btn btn-success btn-sm" title = "Cari Mitra" >Cari</a></td>
+													</tr>
+												</table>
+											<!-- </form> -->
+										</div>
+									</div><!-- /.box-header -->
+									<div  id="tb_cari_mitra" class="box-body">
+										<?php
+										if(!empty($list_mitra))
+										{
+											echo'<table width="100%" id="example2" class="table table-bordered table-hover">';
+												echo '<thead>
+	<tr>';
+															echo '<th width="5%">No</th>';
+															echo '<th width="15%">Kode</th>';
+															echo '<th width="25%">Nama Mitra</th>';
+															echo '<th width="25">Ketua/Pemilik</th>';
+															echo '<th width="40%">Alamat</th>';
+															echo '<th width="10%">Aksi</th>';
+												echo '</tr>
+	</thead>';
+												$list_result = $list_mitra->result();
+												$no =1;
+												echo '<tbody>';
+												foreach($list_result as $row)
+												{
+													echo'<tr>';
+														echo'<td><input type="hidden" id="no2_'.$row->id_outlet.'" value="'.$row->id_outlet.'" />'.$no.'</td>';
+														
+														echo'<td><input type="hidden" id="kode2_'.$row->id_outlet.'" value="'.$row->kode_outlet.'" />'.$row->kode_outlet.'</td>';
+														echo'<td><input type="hidden" id="nama2_'.$row->id_outlet.'" value="'.$row->nama_outlet.'" />'.$row->nama_outlet.'</td>';
+														echo'<td><input type="hidden" id="ketua2_'.$row->id_outlet.'" value="'.$row->ketua_outlet.'" />'.$row->ketua_outlet.'</td>';
+														echo'<td><input type="hidden" id="alamat2_'.$row->id_outlet.'" value="'.$row->alamat_outlet.'" />'.$row->alamat_outlet.'</td>';
+														
+							
+														
+														//echo'<input type="hidden" id="nama_supplier2_'.$row->id_outlet.'" value="'.$row->nama_supplier.'" />';
+														
+														echo'<td>
+	<button type="button" onclick="insert('.$row->id_outlet.')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Pilih</button>
+	</td>';
+														
+													echo'</tr>';
+													$no++;
+												}
+												
+												echo '</tbody>';
+											echo'</table>';
+										}
+										else
+										{
+											echo'<center>';
+											echo'Tidak Ada Data Yang Ditampilkan !';
+											echo'</center>';
+										}
+										?>
+									</div><!-- /.box-body -->
+								</div><!-- /.box -->
+								<!-- ISI BODY -->
+								
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+							</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Show MOdal - TABLE 1-->
+		
+		
+		<!-- =========================================================== -->
+		</section><!-- /.content -->
+	</div><!-- /.content-wrapper -->
+			
+			
+		
+<script type='text/javascript'>
+	function simpanData()
+	{
+		//alert("sss");
+		var sList = "";
+		var id_h_penjualan = $("#id_h_penjualan").val();
+	
+		$('#tb_produk input[type="checkbox"]').each(function() {
+		
+			if(this.checked && !this.disabled)
+			{
+				var str = this.id;
+				var idx = str.substr(str.length-1,1);
+				
+				//alert(idx);
+				var id_h_penjualan = $("#id_h_penjualan").val();
+				var id_outlet = $("#id_outlet").val();
+				var id_d_penjualan = $("#no_"+idx).val();
+				var id_produk = $("#id_produk_"+idx).val();
+				
+				//alert(id_h_penjualan);
+				//alert(id_d_penjualan);
+				//alert(id_outlet);
+				//alert(id_produk);
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_admin_distribusi/simpan_d_distribusi/", 
+				data: "id_h_penjualan="+id_h_penjualan+"&id_d_penjualan="+id_d_penjualan+"&id_outlet="+id_outlet+"&id_produk="+id_produk,
+				success:function(data)
+				{ 
+					
+				}
+				});
+
+			}
+			
+		});
+		
+		alert("simpan data berhasil");
+		window.location.replace("<?=base_url();?>admin-list-distribusi/"+id_h_penjualan);
+	}
+	
+	function insert(id)
+	{
+		//alert($('#kode2_'+id).val());
+		
+		$('input[name=id_outlet]').val($('#no2_'+id).val());
+		$('input[name=kode]').val($('#kode2_'+id).val());
+		$('input[name=nama]').val($('#nama2_'+id).val());
+		$('input[name=ketua]').val($('#ketua2_'+id).val());
+		$('input[name=alamat]').val($('#alamat2_'+id).val());
+	}
+	
+	function isNumberKey(evt)
+	{
+    	var charCode = (evt.which) ? evt.which : event.keyCode
+    	if (charCode > 31 && (charCode < 48 || charCode > 57))
+    	
+    	return false;
+    	return true;
+	}
+	function FormatCurrency(objNum)
+	{
+	   var num = objNum.value
+	   var ent, dec;
+	   if (num != '' && num != objNum.oldvalue)
+	   {
+		 num = HapusTitik(num);
+		 if (isNaN(num))
+		 {
+		   objNum.value = (objNum.oldvalue)?objNum.oldvalue:'';
+		 } else {
+		   var ev = (navigator.appName.indexOf('Netscape') != -1)?Event:event;
+		   if (ev.keyCode == 190 || !isNaN(num.split('.')[1]))
+		   {
+			 alert(num.split('.')[1]);
+			 objNum.value = TambahTitik(num.split('.')[0])+'.'+num.split('.')[1];
+		   }
+		   else
+		   {
+			 objNum.value = TambahTitik(num.split('.')[0]);
+		   }
+		   objNum.oldvalue = objNum.value;
+		 }
+	   }
+	}
+	
+			
+	function formatCurrency(num) {
+	   num = num.toString().replace(/\$|\./g,'');
+	   if(isNaN(num))
+	   num = "0";
+	   sign = (num == (num = Math.abs(num)));
+	   num = Math.floor(num*100+0.50000000001);
+	   cents = num0;
+	   num = Math.floor(num/100).toString();
+	   for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+	   num = num.substring(0,num.length-(4*i+3))+'.'+
+	   num.substring(num.length-(4*i+3));
+	   return (((sign)?'':'-') + num);
+	}
+</script>
+
+
+
+
+	<!-- Bootstrap 3.3.4 -->
+	<script src="<?=base_url();?>assets/adminlte/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Slimscroll -->
+	<script src="<?=base_url();?>assets/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<!-- FastClick -->
+	<script src="<?=base_url();?>assets/adminlte/plugins/fastclick/fastclick.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="<?=base_url();?>assets/adminlte/dist/js/app.min.js"></script>
+	<!-- Page script -->
+	
+		<!-- iCheck 1.0.1 -->
+	<script src="<?=base_url();?>assets/adminlte/plugins/iCheck/icheck.min.js"></script>
+	
+    <!-- InputMask -->
+    <script src="<?=base_url();?>/assets/adminlte/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="<?=base_url();?>/assets/adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="<?=base_url();?>/assets/adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        //$(".select2").select2();
+
+        //Datemask yyyy-mm-dd
+        $(".datemask_mysql").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
+        //Datemask dd/mm/yyyy
+        //$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+        //Datemask2 mm/dd/yyyy
+        //$("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+        //TimeMask hh:mm:ss
+        $(".time_mysql").inputmask("hh:mm:ss", {"placeholder": "hh:mm:ss"});
+        //Money Euro
+        //$("[data-mask]").inputmask();
+
+        //iCheck for checkbox and radio inputs
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+          checkboxClass: 'icheckbox_minimal-blue',
+          radioClass: 'iradio_minimal-blue'
+        });
+        //Red color scheme for iCheck
+        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+          checkboxClass: 'icheckbox_minimal-red',
+          radioClass: 'iradio_minimal-red'
+        });
+        //Flat red color scheme for iCheck
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+          checkboxClass: 'icheckbox_flat-green',
+          radioClass: 'iradio_flat-green'
+        });
+
+        //Colorpicker
+        $(".my-colorpicker1").colorpicker();
+        //color picker with addon
+        $(".my-colorpicker2").colorpicker();
+
+        //Timepicker
+        $(".timepicker").timepicker({
+          showInputs: false
+        });
+      });
+    </script>
+	
+	<script>
+		  function initMap() {
+			var uluru = {lat: -25.363, lng: 131.044};
+			var map = new google.maps.Map(document.getElementById('map'), {
+			  zoom: 4,
+			  center: uluru
+			});
+			var marker = new google.maps.Marker({
+			  position: uluru,
+			  map: map
+			});
+		  }
+		</script>
+		<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4Bxuc1BQezEtR6JQiXDWnaPYaSRFG430&callback=initMap">
+    </script>
+
+	
+	

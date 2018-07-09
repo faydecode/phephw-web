@@ -1,0 +1,686 @@
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.4 -->
+    <link rel="stylesheet" href="<?=base_url();?>assets-toko/adminlte/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="<?=base_url();?>assets-toko/adminlte/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="<?=base_url();?>assets-toko/adminlte/dist/css/skins/_all-skins.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?=base_url();?>assets-toko/adminlte/plugins/select2/select2.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+        
+		
+    		<style type="text/css">
+    		.labelfrm {
+    			display:block;
+    			font-size:small;
+    			margin-top:5px;
+    		}
+    		.error {
+    			font-size:small;
+    			color:red;
+    		}
+    		</style>
+    		
+    		<script type="text/javascript" src="<?=base_url();?>assets-toko/admin/js/jquery.validate.min.js"></script>
+    		
+    		<script type="text/javascript">
+    		$(document).ready(function() {
+    			$('.frm-input').validate();
+                
+                $('.confirm-btn').click(function(){
+    			var answer = confirm(jQuery(this).attr('title'));
+                return answer;
+                });
+    		});
+            </script>
+            
+            <script type="text/javascript">
+                var htmlobjek;
+                $(document).ready(function()
+                {	
+					$('#inputdata').attr('class', 'active treeview');
+					$('#input-data-produk').attr('class', 'active treeview');
+					$('#input-data-produk-produk').attr('class', 'active treeview');
+					
+                    $("#kode").change(function()
+                    //$("#simpan").click(function()
+                    {  
+                        var kode = $("#kode").val();
+                        $("#pesan").html("<img src='<?=base_url();?>assets-toko/global/loading.gif'>Cek KODE ...");
+               
+                        if(kode=='')
+                        {
+                          $("#pesan").html('<img src="<?=base_url();?>assets-toko/global/salah.png"> Kode tidak boleh kosong');
+                          $("#kode").css('border', '3px #C33 solid');
+                        }
+						else
+						$.ajax({type: "POST", url: "<?=base_url();?>index.php/C_admin_produk/cek_produk/", data: "kode="+kode, success:function(data)
+                        { 
+                        	if(data==0 || ($("#kode").val() == $("#cek_kode").val()))
+                            //if(data==0)
+                        	{
+                        	  	$("#pesan").html('<img src="<?=base_url();?>assets-toko/global/true.png">');
+                                $("#kode").css('border', '3px #090 solid');
+                                $("#nama").attr("disabled", false);
+								$("#spek").attr("disabled", false);
+								$("#kat_produk").attr("disabled", false);
+								$("#satuan").attr("disabled", false);
+								$("#keterangan").attr("disabled", false);
+                                $("#btnsimpan").attr("disabled", false);
+							  }
+                              else
+                              {
+                              	$("#pesan").html('<img src="<?=base_url();?>assets-toko/global/salah.png"> Kode Produk telah digunakan');
+                				//$("#pesan").html(data); 
+                              	$("#kode").css('border', '3px #C33 solid');
+                                $("#nama").attr("disabled", true);
+								$("#spek").attr("disabled", true);
+								$("#kat_produk").attr("disabled", true);
+								$("#satuan").attr("disabled", true);
+								$("#keterangan").attr("disabled", true);
+                                $("#btnsimpan").attr("disabled", true);
+                              }
+							} 
+                        });
+                     });
+                });
+            </script>
+            
+     <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Produk
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="#"><i class="fa fa-dashboard"></i> Produk</a></li>
+            <li class="active"> Produk</li>
+            
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- =========================================================== -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box box-warning collapsed-box box-solid"  id="box-form" >
+                <div class="box-header with-border">
+                  <h3 class="box-title">Formulir Input Produk</h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  
+                  
+                  <!-- ISI FORM -->
+                        <form role="form" action="<?=base_url();?>toko-produk-simpan<?php echo '?'.http_build_query($_GET); ?>" method="post" class="frm-input" enctype="multipart/form-data">
+                          <input type="hidden" name="stat_edit" id="stat_edit"/>
+                          <div class="box-body">
+                            
+							<!--<div class="form-group">
+                              <label for="foto">Avatar</label>
+                              <span id="img_edit"></span>
+                              <input type="file" id="foto" name="foto">
+                              <p class="help-block">Pilih untuk memasukan avatar</p>
+                            </div>-->
+                            
+							<br/>
+							<!--<div class="form-group">
+                              <label for="no_karyawan">NO ID Karyawan</label>
+                              <input type="text" id="no_karyawan" name="no_karyawan"  maxlength="35" class="form-control" size="35" alt="NO Karyawan" value="<?php echo $no_karyawan; ?>" title="NO Karyawan" placeholder="*NO Karyawan Otomatis" disabled/>
+                            </div>-->
+							
+                            <div class="form-group">
+                              <label for="kode">Kode Produk</label>
+                              <input type="hidden" id="cek_kode" name="cek_kode" />
+                              <input type="text" id="kode" name="kode"  maxlength="35" class="required form-control" size="35" alt="kode" title="Kode Produk" placeholder="*Kode"/><span id="pesan"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                              <label for="nama">Nama Produk</label>
+                              <input type="text" id="nama" name="nama"  maxlength="35" class="required form-control" size="35" alt="nama" title="Nama Produk" placeholder="*Nama"/>
+                            </div>
+                            
+							<div class="form-group">
+                              <label for="kategori">Kategori Produk</label>
+                              <select name="kat_produk" id="kat_produk" class="required form-control select2" title="Kategori Produk">
+                                <option value="">--Pilih Kategori--</option>
+                                <?php
+                                	if (!empty($list_kat_produk))
+                                    {
+                                    	$list_result = $list_kat_produk->result();
+                                    	foreach($list_result as $row)
+                                        {
+                                            echo '<option value="'.$row->id_kat_produk.'">'.$row->nama_kat_produk.'</option>';
+                                        }
+                                     }
+                                 ?>
+                                </select>
+                            </div>
+							
+							<div class="form-group">
+                              <label for="spek">Tag</label>
+                              <input type="text" id="tag" name="tag"  maxlength="50" class="required form-control" size="35" alt="spek" title="Tag produk" placeholder="*tag"/>
+                            </div>
+							
+							<!--<div class="form-group">
+                              <label for="satuan">Satuan</label>
+                              <select name="satuan" id="satuan" class="required form-control select2" title="Satuan">
+                                <option value="">--Pilih Satuan--</option>
+                                <?php
+                                	if (!empty($list_satuan))
+                                    {
+                                    	$list_result = $list_satuan->result();
+                                    	foreach($list_result as $row)
+                                        {
+                                            echo '<option value="'.$row->id_satuan.'">'.$row->kode_satuan.'</option>';
+                                        }
+                                     }
+                                 ?>
+                                </select>
+                            </div>-->
+							
+							<input type="hidden" id="satuan" name="satuan" value="KS20180700001" />
+							
+							
+							<input type="hidden" id="charge" name="charge" onkeypress="return isNumberKey(event)"  maxlength="35" class="required form-control" size="35" alt="charge" title="charge" placeholder="*charge"/>
+							
+							<input type="hidden" name="op_charge" id="op_charge" >
+							
+							
+							
+							
+							
+							<input type="hidden" id="charge_beli" name="charge_beli" maxlength="35" class="required form-control" size="35" alt="Charge Pembelian" title="Charge Pembelian" placeholder="*Charge Pembelian"/>
+							
+							
+							
+                            <input type="hidden" name="op_beli" id="op_beli">
+							
+							<div class="form-group">
+							<label for="min_stok">Minimal Stock</label>
+							<input type="text" id="min_stok" name="min_stok" onkeypress="return isNumberKey(event)"  maxlength="35" class="required form-control" size="35" alt="Minimal Stock" title="Minimal Stock" placeholder="*Minimal Stock"/>
+							</div>
+							
+							<div class="form-group">
+							<label for="max_stok">Maksimal Stock</label>
+							<input type="text" id="max_stok" name="max_stok" onkeypress="return isNumberKey(event)"  maxlength="35" class="required form-control" size="35" alt="Maksimal Stock" title="Maksimal Stock" placeholder="*Maksimal Stock"/>
+							</div>
+							
+							<!--<div class="form-group">
+                              <label for="spek">Spesifikasi</label>
+							-->
+							<input type="hidden" id="spek" name="spek"  maxlength="35" class="required form-control" size="35" alt="spek" title="Spek produk" placeholder="*spek"/>
+                            <!--</div>-->
+							
+							
+							<div class="form-group">
+                              <label for="keterangan">Deskripsi Produk</label>
+                              <textarea name="keterangan" id="keterangan" class="form-control" title="keterangan Lengkap" placeholder="Keterangan"></textarea>
+                            </div>
+							
+                          </div><!-- /.box-body -->
+        
+                          <div class="box-footer">
+                            <button type="reset" class="btn btn-default">Batal</button>
+                            <button type="submit" id="btnsimpan" class="confirm-btn btn btn-primary" title="Simpan Data Produk ?">Simpan</button>
+                          </div>
+                        </form>
+                    <!-- ISI FORM -->
+                  
+                  
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+              
+              
+              <!-- Perbatasan table dan form -->
+					
+					<div class="box">
+						<div class="box-header">
+						<h3 class="box-title">Table Produk</h3>
+							<div class="pull-right">
+								<!-- <form action="<?=base_url();?>admin/pendaftaran-klikode-cari" method="post" class="frm-cari"> -->
+								<form action="<?=base_url();?>toko-produk" method="get" class="frm-cari">
+									<table>
+										<tr>
+											<!-- <td>Berdasarkan</td><td>:</td> -->
+											<!-- <td>
+												<select name="berdasarkan" title="Cari Berdasarkan" class="form-control">
+													<option value=""><?php if (!empty($_GET['berdasarkan'])){echo $_GET['berdasarkan'];} ?></option>
+													<option value="spesialisasi">Spesialisasi</option>
+													<option value="pendidikan">Pendidikan</option>
+												</select>
+											</td> -->
+											<td>
+												<!-- <input type="text" name="cari"  maxlength="35" class="text form-control" size="35" alt="tlp" title="Cari data" placeholder="...Cari" value="<?php if (!empty($_GET['berdasarkan'])){echo $_GET['cari'];} ?>"/> -->
+												<input type="text" name="cari"  maxlength="35" class="text form-control" size="35" alt="tlp" title="Cari data" placeholder="...Cari" value="<?php if (!empty($_GET['cari'])){echo $_GET['cari'];} ?>"/>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div><!-- /.box-header -->
+						<div class="box-body">
+						
+						
+						<?php
+								if(!empty($list_produk))
+								{
+									echo'<table width="100%" id="example2" class="table table-bordered table-hover">';
+										echo '<thead>
+	<tr>';
+													echo '<th width="5%">No</th>';
+													//echo '<th width="10%">Avatar</th>';
+													echo '<th width="10%">Kode</th>';
+													echo '<th width="20%">Nama Produk</th>';
+													echo '<th width="20%">Spek</th>';
+													echo '<th width="20%">Aksi</th>';
+										echo '</tr>
+	</thead>';
+										$list_result = $list_produk->result();
+										$no =$this->uri->segment(2,0)+1;
+										echo '<tbody>';
+										foreach($list_result as $row)
+										{
+											echo'<tr>';
+												echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_produk.'" />'.$no.'</td>';
+												/*if ($row->avatar == "")
+												{
+													$src = base_url().'assets-toko/global/produk/loading.gif';
+													echo '<td><img id="img_'.$row->id_produk.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+												}
+												else
+												{
+													$src = base_url().'assets-toko/global/produk/'.$row->avatar;
+													echo '<td><img id="img_'.$row->id_produk.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+												}
+												*/
+												
+												
+												
+												echo'<td><input type="hidden" id="kode_produk_'.$no.'" value="'.$row->kode_produk.'" />'.$row->kode_produk.'</td>';
+												
+												echo'<td><input type="hidden" id="nama_produk_'.$no.'" value="'.$row->nama_produk.'" />'.$row->nama_produk.'</td>';
+												echo'<td><input type="hidden" id="spek_'.$no.'" value="'.$row->spek_produk.'" />'.$row->spek_produk.'</td>';
+												echo'<input type="hidden" id="nama_kat_produk_'.$no.'" value="'.$row->nama_kat_produk.'" />';
+												echo'<input type="hidden" id="id_kat_produk_'.$no.'" value="'.$row->id_kat_produk.'" />';
+												
+												echo'<input type="hidden" id="kode_satuan_'.$no.'" value="'.$row->kode_satuan.'" />';
+												echo'<input type="hidden" id="id_satuan_'.$no.'" value="'.$row->id_satuan.'" />';
+												echo'<input type="hidden" id="charge_'.$no.'" value="'.$row->charge.'" />';
+												echo'<input type="hidden" id="op_charge_'.$no.'" value="'.$row->optr_charge.'" />';
+												echo'<input type="hidden" id="charge_beli_'.$no.'" value="'.$row->charge_beli.'" />';
+												echo'<input type="hidden" id="op_beli_'.$no.'" value="'.$row->optr_charge_beli.'" />';
+												echo'<input type="hidden" id="min_stok_'.$no.'" value="'.$row->min_stock.'" />';
+												echo'<input type="hidden" id="max_stok_'.$no.'" value="'.$row->max_stock.'" />';
+												
+												echo'<input type="hidden" id="keterangan_'.$no.'" value="'.$row->ket_produk.'" />';
+												
+												echo'<td>
+												
+	<a class="btn btn-success btn-sm" href="'.base_url().'toko-produk-gambar/'.$row->id_produk.'">Tambah Gambar</a>
+	
+	<button type="button" onclick="view('.$no.')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+		view
+	</button>
+	
+	<a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="edit('.$no.')" title = "Ubah Data '.$row->nama_produk.'" alt = "Ubah Data '.$row->nama_produk.'">Edit</a>
+	
+	<a class="confirm-btn btn btn-danger btn-sm" href="'.base_url().'toko-produk-hapus/'.$row->id_produk.'?'.http_build_query($_GET).'" title = "Hapus Data '.$row->nama_produk.'" alt = "Hapus Data '.$row->nama_produk.'">Hapus</a>
+	
+	</td>';
+	
+	
+
+	
+											echo'</tr>';
+											$no++;
+										}
+										
+										echo '</tbody>';
+									echo'</table>';
+								}
+								else
+								{
+									echo'<center>';
+									echo'Tidak Ada Data Yang Ditampilkan !';
+									echo'</center>';
+								}
+							?>
+						<center>
+                        <div class="halaman"><?php echo $halaman;?></div>
+                        </center>
+						</div><!-- /.box-body -->
+					</div><!-- /.box -->
+					
+					
+					<!-- Show MOdal -->
+                      <div class="modal fade modal-primary" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Profile Produk</h4>
+                              </div>
+                              <div class="modal-body">
+                                <center>
+                                    <span id="img2"></span>
+                                </center>
+                                <table>
+                                    <tr>
+                                        <td></td><td></td><td></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kode Produk</td><td>:</td><td><span id="kode2"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nama Produk</td><td>:</td><td><span id="nama2"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kategori</td><td>:</td><td><span id="kategori2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Satuan</td><td>:</td><td><span id="satuan2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Charge</td><td>:</td><td><span id="charge2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Operator Charge</td><td>:</td><td><span id="op_charge2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Charge Pembelian</td><td>:</td><td><span id="charge_beli2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Operator Charge Beli</td><td>:</td><td><span id="op_beli2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Minimal Stok</td><td>:</td><td><span id="min_stok2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Maksimal Stok</td><td>:</td><td><span id="max_stok2"></span></td>
+                                    </tr>
+									
+									<tr>
+                                        <td>spek</td><td>:</td><td><span id="spek2"></span></td>
+                                    </tr>
+									<tr>
+                                        <td>Keterangan</td><td>:</td><td><span id="keterangan2"></span></td>
+                                    </tr>
+                                </table>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                    <!-- Show MOdal -->
+					
+					<div class="example-modal" >
+						<div class="modal fade" id="modalGambar">
+						  <div class="modal-dialog">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">Tambah Image Produk</h4>
+							  </div>
+							  <div class="modal-body">
+									<div class="box">
+									<div class="box-body">
+									<!--<form role="form" action="<?=base_url();?>C_admin_images/simpan/" method="post" class="frm-input" enctype="multipart/form-data">-->
+									<input type="hidden" name="stat_edit2" id="stat_edit2"/>
+									
+											<div class="form-group">
+											  <label for="foto">Gambar</label>
+											  <span id="img_edit"></span>
+											  <input type="file" id="foto" name="foto">
+											  <p class="help-block">Pilih untuk memasukan gambar</p>
+											</div>
+											
+											<input type="hidden" id="id_gambar" name="id_gambar" />
+											<input type="hidden" id="id_produk_gambar" name="id_produk_gambar" />
+											
+											<div class="form-group">
+											<label for="nama_gambar">Nama Gambar</label>
+											<input type="hidden" id="cek_gambar" name="cek_gambar" />
+											<input type="text" id="nama_gambar" name="nama_gambar"  maxlength="35" class="required form-control" size="35" alt="nama" title="Nama Gambar" placeholder="*Nama Gambar"/><span id="pesan_gambar"></span>
+											</div>
+											
+											<button id="btnsimpan2" onclick="simpanGambar()"  class="confirm-btn btn btn-primary" title="Simpan Data Gambar">Submit</button>
+											
+											<!--<div class="form-group">
+											<label for="ket_gambar">Keterangan</label>
+											<textarea name="ket_gambar" id="ket_gambar" class="required form-control" title="Keterangan" placeholder="*Keterangan"></textarea>
+											</div>-->
+										
+										<!--<div class="box-footer">
+											<button type="reset" class="btn btn-default">Batal</button>
+											<button type="submit" id="btnsimpan" class="confirm-btn btn btn-primary" title="Simpan Data produk">Submit</button>
+										</div>-->
+									</form>
+											
+										</div><!-- /.box-body -->
+									</div>
+									
+									
+								<!-- ISI FORM -->
+									
+									<div class="box">
+									
+									<div class="box-body" id="tb_cari_gambar">
+						<?php
+								if(!empty($list_image))
+								{
+									echo'<table width="100%" id="example2" class="table table-bordered table-hover">';
+										echo '<thead>
+													<tr>';
+													echo '<th width="5%">No</th>';
+													echo '<th width="10%">Gambar</th>';
+													echo '<th width="20%">Nama Gambar</th>';
+													echo '<th width="20%">Aksi</th>';
+												echo '</tr>
+											</thead>';
+										$list_result = $list_image->result();
+										echo '<tbody>';
+										foreach($list_result as $row)
+										{
+											echo'<tr>';
+												echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_produk.'" />'.$no.'</td>';
+												if ($row->avatar == "")
+												{
+													$src = base_url().'assets-toko/global/produk/loading.gif';
+													echo '<td><img id="img_'.$row->id_produk.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+												}
+												else
+												{
+													$src = base_url().'assets-toko/global/produk/'.$row->avatar;
+													echo '<td><img id="img_'.$row->id_produk.'"  width="100px" height="100px" style="border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;" src="'.$src.'" /></td>';
+													
+													echo'<input type="hidden" id="avatar_url_'.$row->id_produk.'" value="'.$src.'" />';
+												}
+												
+												echo'<td><input type="hidden" id="no_'.$no.'" value="'.$row->id_produk.'" />'.$no.'</td>';
+												
+																						echo'<td>
+												
+	<a href="javascript:void(0)" class="btn" onclick="editGambar('.$no.')"><i class="fa fa-trash-o"></i></a>
+	
+	<a href="javascript:void(0)" class="btn" onclick="hapusGambar('.$no.')"><i class="fa fa-trash-o"></i></a>
+	
+	</td>';
+
+	
+											echo'</tr>';
+										
+										}
+										
+										echo '</tbody>';
+									echo'</table>';
+								}
+								else
+								{
+									echo'<center>';
+									echo'';
+									echo'</center>';
+								}
+												
+	
+						?>
+									
+									</div>
+									</div>
+
+							  </div>
+							  <div class="modal-footer">
+								<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+								<!--<button type="button" class="btn btn-primary">Save changes</button>-->
+							  </div>
+							</div>
+							<!-- /.modal-content -->
+						  </div>
+						  <!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+					  </div>
+					  <!-- /.example-modal -->
+					
+					
+					
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+          <!-- =========================================================== -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+            
+    		
+		
+<script type='text/javascript'>
+	function view(id)
+	{
+        $("#img2").html("<img style='border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;' src='"+$('#avatar_url_'+id).val()+"' width='100px' height='100px'>");
+        $('#kode2').html($('#kode_produk_'+id).val());
+        $('#nama2').html($('#nama_produk_'+id).val());
+        $('#kategori2').html($('#nama_kat_produk_'+id).val());
+		$('#satuan2').html($('#kode_satuan_'+id).val());
+		$('#charge2').html($('#charge_'+id).val());
+		$('#op_charge2').html($('#op_charge_'+id).val());
+		$('#charge_beli2').html($('#charge_beli_'+id).val());
+		$('#op_beli2').html($('#op_beli_'+id).val());
+		$('#min_stok2').html($('#min_stok_'+id).val());
+		$('#max_stok2').html($('#max_stok_'+id).val());
+		$('#spek2').html($('#spek_'+id).val());
+		$('#keterangan2').html($('#keterangan_'+id).val());
+        
+		//alert (k_kat);
+	}
+	
+	function addImage(id)
+	{
+		$('input[name=id_produk_gambar]').val(id);
+		
+		$.post("<?=base_url();?>index.php/C_admin_images/get_list_gambar/",
+		{
+			id_produk: id
+		},
+		function(data, status){
+			//alert(data);
+			if(data!=0)
+			{
+				$("#tb_cari_gambar").html(data);
+			} 
+			else
+			{
+				$("#tb_cari_gambar").html("Tidak Ada Data Yang Ditampilkan");
+			}
+		});
+	
+	}
+	
+	function simpanGambar()
+	{
+		var id_image = $("#kode").val();
+		var id_produk = $("#kode").val();
+		var nama_gambar = $("#kode").val();
+		//var files = $("#foto").attr(
+		
+	}
+	
+	function edit(id)
+	{
+		alert("Mode Perubahan Data, Silahkan Cek Formulir Isian !");
+		$("#img_edit").html("<img style='border:1px solid #C8C8C8; padding:5px; float:left; margin-right:20px;' src='"+$('#avatar_url_'+id).val()+"' width='100px' height='100px'>");
+		$('input[name=stat_edit]').val($('#no_'+id).val());
+        $('input[name=kode]').val($('#kode_produk_'+id).val());
+		$('input[name=cek_kode]').val($('#kode_produk_'+id).val());
+		$('input[name=nama]').val($('#nama_produk_'+id).val());
+		$('input[name=charge]').val($('#charge_'+id).val());
+		$('input[name=charge_beli]').val($('#charge_beli_'+id).val());
+		$('input[name=min_stok]').val($('#min_stok_'+id).val());
+		$('input[name=max_stok]').val($('#max_stok_'+id).val());
+
+		$('input[name=spek]').val($('#spek_'+id).val());
+		
+		document.getElementById("keterangan").value = $('#keterangan_'+id).val();
+		
+		document.getElementById("kat_produk").options.item(0).text = $('#nama_kat_produk_'+id).val();
+		document.getElementById("kat_produk").options.item(0).value = $('#id_kat_produk_'+id).val();
+		
+		document.getElementById("satuan").options.item(0).text = $('#kode_satuan_'+id).val();
+		document.getElementById("satuan").options.item(0).value = $('#id_satuan_'+id).val();
+		
+		document.getElementById("op_charge").options.item(0).text = $('#op_charge_'+id).val();
+		document.getElementById("op_charge").options.item(0).value = $('#op_charge_'+id).val();
+		
+		document.getElementById("op_beli").options.item(0).text = $('#op_beli_'+id).val();
+		document.getElementById("op_beli").options.item(0).value = $('#op_beli_'+id).val();
+		
+		
+		
+		$('#box-form').attr('class', 'box box-warning ellapsed-box box-solid');
+	}
+	function isNumberKey(evt)
+	{
+    	var charCode = (evt.which) ? evt.which : event.keyCode
+    	if (charCode > 31 && (charCode < 48 || charCode > 57))
+    	
+    	return false;
+    	return true;
+	}
+</script>
+      
+    <!-- Bootstrap 3.3.4 -->
+    <script src="<?=base_url();?>assets-toko/adminlte/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="<?=base_url();?>assets-toko/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="<?=base_url();?>assets-toko/adminlte/plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="<?=base_url();?>assets-toko/adminlte/dist/js/app.min.js"></script>
+    <!-- Page script -->
+    

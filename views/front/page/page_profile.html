@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ubur-ubur Game Store</title>
+		<meta name="description" content="" />
+		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
+
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+		<!-- WEB FONTS : use %7C instead of | (pipe) -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+		<!-- CORE CSS -->
+		<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		
+		<!-- THEME CSS -->
+		<link href="<?php echo base_url(); ?>assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout.css" rel="stylesheet" type="text/css" />
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<link href="<?php echo base_url(); ?>assets/css/header-1.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+	</head>
+
+	<!--
+		AVAILABLE BODY CLASSES:
+		
+		smoothscroll 			= create a browser smooth scroll
+		enable-animation		= enable WOW animations
+
+		bg-grey					= grey background
+		grain-grey				= grey grain background
+		grain-blue				= blue grain background
+		grain-green				= green grain background
+		grain-blue				= blue grain background
+		grain-orange			= orange grain background
+		grain-yellow			= yellow grain background
+		
+		boxed 					= boxed layout
+		pattern1 ... patern11	= pattern background
+		menu-vertical-hide		= hidden, open on click
+		
+		BACKGROUND IMAGE [together with .boxed class]
+		data-background="<?php echo base_url(); ?>assets/images/_smarty/boxed_background/1.jpg"
+	-->
+	<body class="smoothscroll enable-animation">
+
+		<!-- wrapper -->
+		<div id="wrapper">
+			
+			
+			
+			<?php 
+				$this->load->view("/front/top-bar.html"); 
+			?>
+
+			
+			<?php 
+				$data = array('isCart'=>'0');
+				$this->load->view("/front/header.html",$data); 
+			?>
+
+			<!-- HEADER -->
+
+			
+			<section class="page-header page-header-xs">
+				<div class="container">
+
+					<!-- breadcrumbs -->
+					<ol class="breadcrumb breadcrumb-inverse">
+						<li><a href="<?php echo base_url(); ?>">Home</a></li>
+						<li><a href="#">Profile</a></li>
+						<!--<li class="active">Felicia Doe</li>-->
+					</ol><!-- /breadcrumbs -->
+
+				</div>
+			</section>
+			<!-- /PAGE HEADER -->
+
+
+
+
+			<!-- -->
+			<section>
+				<div class="container">
+				
+					
+				
+					<!-- RIGHT -->
+					<div class="col-lg-9 col-md-9 col-sm-8 col-lg-push-3 col-md-push-3 col-sm-push-4 margin-bottom-80">
+						
+						<ul class="nav nav-tabs nav-top-border">
+							<li class="active"><a href="#info" data-toggle="tab">Biodata Diri</a></li>
+							<li><a href="#avatar" data-toggle="tab">Avatar</a></li>
+							<li><a href="#password" data-toggle="tab">Password</a></li>
+							<li><a href="#alamat" data-toggle="tab">Daftar Alamat</a></li>
+							<!--<li><a href="#privacy" data-toggle="tab">Privacy</a></li>-->
+						</ul>
+
+						<div class="tab-content margin-top-20">
+							
+														
+							<!-- PERSONAL INFO TAB -->
+							<div class="tab-pane fade in active" id="info">
+								<form action="<?php echo base_url(); ?>simpan-profile" method="post">
+									<input type="hidden" id="id_costumer" name="id_costumer" value="<?php echo $id_costumer; ?>">
+									<input type="hidden" id="alamat_rumah" name="alamat_rumah" value="">
+									<div class="form-group">
+										<label class="control-label">Kode Pelanggan</label>
+										<input type="text" id="no_costumer" name="no_costumer" placeholder="Kode Otomatis" class="form-control" value="<?php echo $no_costumer; ?>" disabled>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Nama Lengkap</label>
+										<input type="text" value="<?php echo $nama_lengkap; ?>" id="nama" name="nama" placeholder="Nama Lengkap" class="form-control">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Panggilan</label>
+										<input type="text" value="<?php echo $panggilan; ?>" id="panggilan" name="panggilan" placeholder="Panggilan" class="form-control">
+									</div>
+									<div class="form-group">
+										<label class="control-label">No. Handphone</label>
+										<input type="text" value="<?php echo $hp; ?>" id="hp" name="hp" placeholder="+62111-1234-657" onkeypress="return isNumberKey(event)" class="form-control">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Email</label>
+										<input type="text" value="<?php echo $email; ?>" id="email" name="email" placeholder="Email" class="form-control">
+									</div>
+								
+									
+									<div class="margiv-top10">
+										<!--<a href="#" id="btnSimpan" onclick="updateProfile()" class="btn btn-primary toastr-notify" data-progressBar="true" data-position="top-right" data-notifyType="success" data-message=""><i class="fa fa-check"></i> Save Changes </a>-->
+										<!--<a href="#" id="btnSimpan" class="btn btn-primary"><i class="fa fa-check"></i> Save Changes </a>-->
+										<button type="submit" id="btnSimpan" class="btn btn-primary"><i class="fa fa-check"></i> Save Changes </button>
+									</div>
+									
+									
+									
+								</form>
+							</div>
+							<!-- /PERSONAL INFO TAB -->
+
+							<!-- AVATAR TAB -->
+							<div class="tab-pane fade" id="avatar">
+
+								<form class="clearfix" action="<?php echo base_url(); ?>upload-gambar" method="post" enctype="multipart/form-data">
+									<div class="form-group">
+
+										<div class="row">
+
+											<div class="col-md-3 col-sm-4">
+												<?php
+													$src = base_url().'assets/images/member/'.$avatar;
+													
+												?>
+												<div class="thumbnail">
+													<img class="img-responsive" src="<?php echo $src; ?>" alt="" />
+												</div>
+
+											</div>
+
+											<div class="col-md-9 col-sm-8">
+
+												<div class="sky-form nomargin">
+													<input class="custom-file-upload" type="file" id="foto" name="foto" data-btn-text="Select a File" />
+													<!--<small class="text-muted block">Max file size: 1Mb (jpg/png)</small>-->
+														
+													
+												</div>
+
+												<a href="#" class="btn btn-danger btn-xs noradius"><i class="fa fa-times"></i> Remove Avatar</a>
+
+												<div class="clearfix margin-top-20">
+													<span class="label label-warning">Catatan! </span>
+													<p>
+														Ukuran file tidak boleh lebih dari 1mb!(jpg/png)
+													</p>
+												</div>
+
+											</div>
+
+										</div>
+
+									</div>
+
+									<div class="margiv-top10">
+										<!--<a href="#" class="btn btn-primary">Save Changes </a>-->
+										<button type="submit" class="btn btn-primary">Save Changes </button>
+										<!--<a href="#" class="btn btn-default">Cancel </a>-->
+									</div>
+
+								</form>
+
+							</div>
+							<!-- /AVATAR TAB -->
+
+							<!-- PASSWORD TAB -->
+							<div class="tab-pane fade" id="password">
+
+								<form action="<?php echo base_url(); ?>update-password" method="post">
+									
+									<div class="form-group">
+										<label class="control-label">Current Password</label>
+										<input type="password" id="password1" name="password1" class="form-control required">
+									</div>
+									<div class="form-group">
+										<label class="control-label">New Password</label>
+										<input type="password" id="password2" name="password2" class="form-control required">
+									</div>
+									<div class="form-group">
+										<label class="control-label">Re-type New Password</label>
+										<input type="password" id="password3" name="password3" class="form-control required">
+									</div>
+
+									<div class="margiv-top10">
+										<!--<a href="#" class="btn btn-primary"><i class="fa fa-check"></i> Change Password</a>-->
+										<!--<a href="#" class="btn btn-default">Cancel </a>-->
+										<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Change Password</button>
+										
+									</div>
+
+								</form>
+
+							</div>
+							<!-- /PASSWORD TAB -->
+							
+								<!-- ALAMAT TAB -->
+							<div class="tab-pane fade in" id="alamat">
+								<div class="panel panel-default">
+									<div class="panel-body">
+										<div class="col-md-8 col-sm-8">
+											<div class="pull-left">
+												<button id="btnAlamat" onclick="tambahAlamat()" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Tambah Alamat</button>
+											</div>
+										</div>
+										<div class="col-md-4 col-sm-4">
+											<div class="pull-right">
+												<form action="<?php echo base_url(); ?>profile" method="get">
+													<div class="input-group">
+														
+														<input type="text" id="cari_alamat" name="cari_alamat" class="form-control" placeholder="Cari Nama Alamat..." value="<?php if (!empty($_GET['cari_alamat'])){echo $_GET['cari_alamat'];} ?>">
+														<span class="input-group-btn">
+															<!--<button class="btn btn-success" type="submit">Cari</button>-->
+															<!--<a href="#" onclick="cari_alamat()" class="btn btn-success"><i class="fa fa-search"></i></a>-->
+															<button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+														</span>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<?php
+									if(!empty($list_alamat))
+									{
+										$list_result = $list_alamat->result();
+										$no=1;
+										foreach($list_result as $alamat)
+										{
+								?>
+								<div class="panel panel-success">
+									<div class="panel-heading">
+										<h2 class="panel-title"><?php echo $alamat->nama_alamat; ?></h2>
+									</div>
+									<div class="panel-body">
+											
+											<input type="hidden" id="id_alamat_<?php echo $no; ?>" value="<?php echo $alamat->id_alamat; ?>">
+											<input type="hidden" id="nama_alamat_<?php echo $no; ?>" value="<?php echo $alamat->nama_alamat; ?>">
+											<input type="hidden" id="nama_penerima_<?php echo $no; ?>" value="<?php echo $alamat->nama_penerima; ?>">
+											<input type="hidden" id="no_hp_<?php echo $no; ?>" value="<?php echo $alamat->telepon; ?>">
+											<input type="hidden" id="id_provinsi_<?php echo $no; ?>" value="<?php echo $alamat->provinsi; ?>">
+											<input type="hidden" id="id_kabupaten_<?php echo $no; ?>" value="<?php echo $alamat->kabkota; ?>">
+											<input type="hidden" id="id_kecamatan_<?php echo $no; ?>" value="<?php echo $alamat->kecamatan; ?>">
+											
+											<input type="hidden" id="nama_provinsi_<?php echo $no; ?>" value="<?php echo $alamat->prov; ?>">
+											<input type="hidden" id="nama_kabupaten_<?php echo $no; ?>" value="<?php echo $alamat->kab; ?>">
+											<input type="hidden" id="nama_kecamatan_<?php echo $no; ?>" value="<?php echo $alamat->kec; ?>">
+											
+											<input type="hidden" id="detail_alamat_<?php echo $no; ?>" value="<?php echo $alamat->detail_alamat; ?>">
+											<input type="hidden" id="kodepos_<?php echo $no; ?>" value="<?php echo $alamat->kodepos; ?>">
+											
+											<table class="table" border="0">
+												<tr>
+													<td width="35%"><small><strong>Nama Penerima </strong><br>
+																	<?php echo $alamat->nama_penerima; ?>
+														</small>
+													</td>
+													<td rowspan="2" colspan="4" width="65%"><small><strong>Alamat Pengiriman : </strong><br>
+																<?php echo $alamat->detail_alamat; ?>, <?php echo $alamat->kodepos; ?>
+																<br><br>
+																
+															</small>
+													</td>
+												</tr>
+												<tr>
+													<td><small><strong>Telepon </strong><br>
+																	<?php echo $alamat->telepon; ?>
+														</small>
+													</td>
+												</tr>
+												<tr>
+													<td><small>
+														<a href="#" onclick="editAlamat('<?php echo $no; ?>')" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit"></i>Ubah</a>&nbsp;&nbsp;&nbsp;
+														<a href="#" data-toggle="modal" onclick="confirmDelete('<?php echo $no; ?>')" data-target="#confirm-delete" data-backdrop="static" data-keyboard="false"><i class="fa fa-trash"></i>Hapus</a>
+														</small>
+													</td>
+													<td><small>Kecamatan:<br>
+														<?php echo $alamat->kec; ?>
+													</small></td>
+													<td><small>Kota/Kab:<br>
+														<?php echo $alamat->kab; ?>
+													</small></td>
+													<td><small>Provinsi:<br>
+														<?php echo $alamat->prov; ?>
+													</small></td>
+													<td><small>Negara:<br>
+														Indonesia
+													</small></td>
+												</tr>
+											</table>
+									
+									</div>
+								</div>
+								<?php
+											$no++;
+										}
+									} else {
+										
+										echo '<div class="panel panel-default">';
+										echo '	<div class="panel-body">';
+										echo '   Data alamat masih kosong';
+										echo '	</div>';
+										echo '</div>';
+									}
+								?>
+								
+							</div>
+
+						</div>
+
+					</div>
+					
+					
+					<!-- LEFT -->
+					<div class="col-lg-3 col-md-3 col-sm-4 col-lg-pull-9 col-md-pull-9 col-sm-pull-8">
+						
+						<div class="thumbnail text-center">
+							<img src="<?php echo $src; ?>" alt="" />
+							<h2 class="size-18 margin-top-10 margin-bottom-0"><?php echo $username; ?></h2>
+							<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted">Join Date : <?php echo $tgl_pengajuan; ?></h3>
+							<h2 class="size-18 margin-top-10 margin-bottom-0">Saldo : Rp. 500.000,-</h2>
+							
+						</div>
+
+						<!-- completed -->
+						<!--<div class="margin-bottom-30">
+							<label>88% completed profile</label>
+							<div class="progress progress-xxs">
+								<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="width: 88%; min-width: 2em;"></div>
+							</div>
+						</div>
+						<!-- /completed -->
+
+						<!-- SIDE NAV -->
+						<ul class="side-nav list-group margin-bottom-60" id="sidebar-nav">
+							<li class="list-group-item active"><a href="#"><i class="fa fa-eye"></i> PROFILE</a></li>
+							<li class="list-group-item"><a href="<?php echo base_url(); ?>history-order"><i class="fa fa-history"></i> HISTORY PEMESANAN</a></li>
+							<li class="list-group-item"><a href="<?php echo base_url(); ?>kelola-toko"><i class="fa fa-gears"></i> KELOLA TOKO</a></li>							
+						</ul>
+						<!-- /SIDE NAV -->
+
+
+
+					</div>
+					
+					
+				</div>
+			</section>
+			<!-- / -->
+
+
+			
+			<?php $this->load->view('/front/footer.html');  ?>
+
+			
+
+		</div>
+		<!-- /wrapper -->
+
+
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+		<!-- PRELOADER -->
+		<div id="preloader">
+			<div class="inner">
+				<span class="loader"></span>
+			</div>
+		</div><!-- /PRELOADER -->
+
+		<!-- MODAL INPUT ALAMAT -->
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Input Alamat Baru</h4>
+					</div>
+
+					<!-- Modal Body -->
+					<div class="modal-body">
+						<form action="#" method="post">
+							<input type="hidden" id="stat_edit" name="stat_edit">
+							<input type="hidden" id="kode_negara" name="kode_negara" value="ID">
+							<div class="form-group">
+								<label class="control-label">Nama Alamat</label>
+								<input type="text" id="nama_alamat" name="nama_alamat" placeholder="Ex : Alamat Rumah" class="form-control required" value="">
+							</div>
+							<div class="form-group">
+								<label class="control-label">Nama Penerima</label>
+								<input type="text" id="nama_penerima" name="nama_penerima" placeholder="" class="form-control required" value="">
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label">Alamat</label>
+								<textarea title="alamat" id="detail_alamat" name="detail_alamat" placeholder="" class="form-control required"></textarea>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label">Kode Pos</label>
+								<input type="text" id="kodepos" onkeypress="return isNumberKey(event)" name="kodepos" placeholder="" maxlength="5" class="form-control required" value="">
+							</div>
+							
+							<div class="form-group">
+								<div class="fancy-form fancy-form-select">
+									<select id="provinsi" name="provinsi" onchange="loadKab(this)" class="form-control required">
+										<option value="">--- Provinsi ---</option>
+									</select>
+
+									<i class="fancy-arrow"></i>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="fancy-form fancy-form-select">
+									<select id="kabupaten" name="kabupaten" onchange="loadKec(this)" class="form-control required">
+										<option value="">--- Kabupaten/Kota ---</option>
+									</select>
+
+									<i class="fancy-arrow"></i>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="fancy-form fancy-form-select">
+									<select id="kecamatan" name="kecamatan" class="form-control required">
+										<option value="">--- Kecamatan ---</option>
+
+									</select>
+
+									<i class="fancy-arrow"></i>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label">No. Handphone</label>
+								<input type="text" id="no_hp" onkeypress="return isNumberKey(event)" name="no_hp" placeholder="" class="form-control required" value="">
+							</div>
+							
+						</div>
+
+						
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button id="btnSimpanAlamat" type="button" onclick="simpanAlamat()" class="btn btn-primary">Simpan</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- MODAL INPUT ALAMAT -->
+		
+		<!-- MODA CONFIRM DELETE ALAMAT -->
+		
+		<div id="confirm-delete" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<input type="hidden" id="id_delete" name="id_delete">
+					<!-- header modal -->
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="mySmallModalLabel">Hapus Alamat</h4>
+					</div>
+
+					<!-- body modal -->
+					<div class="modal-body">
+						<small>Anda yakin akan menghapus data <span id="alamat_delete"></span></small>
+					</div>
+					
+					<!-- Modal Footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+						<button type="button" class="btn btn-warning" onclick="hapusAlamat()"> Ya </button>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<!-- MODA CONFIRM DELETE ALAMAT -->
+		
+		
+		<script>
+			function isNumberKey(evt)
+			{
+				var charCode = (evt.which) ? evt.which : event.keyCode
+				if (charCode > 31 && (charCode < 48 || charCode > 57))
+				
+				return false;
+				return true;
+			}
+			
+			function updateProfile()
+			{
+				//alert("ddd");
+				var id_user = $("#id_costumer").val();
+				var nama = $("#nama").val();
+				var panggilan = $("#panggilan").val();
+				var hp = $("#hp").val();
+				var alamat_rumah = document.getElementById("alamat_rumah").value;
+				var email = $("#email").val();
+				//alert(kode_satuan);
+				
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/update_profile/"
+					, data: "id_user="+id_user+"&nama="+nama+
+							"&panggilan="+panggilan+
+							"&hp="+hp+
+							"&alamat_rumah="+alamat_rumah+
+							"&email="+email
+					, success:function(data)
+				{ 
+					
+				}
+				});
+			}
+			
+			function cari_alamat()
+			{
+				
+			}
+			
+			
+			function confirmDelete(id)
+			{
+				$("#alamat_delete").html($("#nama_alamat_"+id).val());
+				$('input[name=id_delete]').val($("#id_alamat_"+id).val());
+				
+			}
+			
+			function hapusAlamat()
+			{
+				var id_alamat = $("#id_delete").val();
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/hapus_alamat/"
+					, data: "id_alamat="+id_alamat
+					, success:function(data)
+				{ 
+					window.location.replace("<?=base_url();?>profile");
+				}
+				});
+			}
+			
+			function tambahAlamat()
+			{
+				$('input[name=stat_edit]').val('');
+				$('input[name=nama_alamat]').val('');
+				$('input[name=nama_penerima]').val('');
+				$('input[name=no_hp]').val('');
+				$('input[name=kodepos]').val('');
+				
+				loadProvinsi();
+				
+				$("#kabupaten").html('<option value="">--- Kabupaten/Kota ---</option>');
+				
+				$("#kecamatan").html('<option value="">--- Kecamatan ---</option>');
+				
+				document.getElementById("detail_alamat").value="";
+				
+			}
+			
+			function loadProvinsi()
+			{
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/load_prov/"
+					, data: "id='id'"
+					, success:function(data)
+				{ 
+					if(data!='')
+					{
+						$("#provinsi").html(data);
+					}
+				}
+				});
+				
+				
+			}
+			
+			function loadKab(evt)
+			{
+				var id_prov = evt.value;
+				//alert(id_prov);
+				
+				$("#kabupaten").html('<option value="">--- Kabupaten/Kota ---</option>');
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/load_kab/"
+					, data: "id_prov="+id_prov
+					, success:function(data)
+				{ 
+					if(data!='')
+					{
+						
+						$("#kabupaten").html(data);
+					}
+				}
+				});
+			}
+			
+			function loadKec(evt)
+			{
+				var id_kab = evt.value;
+				//alert(id_prov);
+				
+				$("#kecamatan").html('<option value="">--- Kecamatan ---</option>');
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/load_kec/"
+					, data: "id_kab="+id_kab
+					, success:function(data)
+				{ 
+					if(data!='')
+					{
+						
+						$("#kecamatan").html(data);
+					}
+				}
+				});
+			}
+			
+			
+			function simpanAlamat()
+			{
+				var stat_edit = $("#stat_edit").val();
+				var nama_alamat = $("#nama_alamat").val();
+				var nama_penerima = $("#nama_penerima").val();
+				var no_hp = $("#no_hp").val();
+				var kode_negara = $("#kode_negara").val();
+				var provinsi = $("#provinsi").val();
+				var kabupaten = $("#kabupaten").val();
+				var kecamatan = $("#kecamatan").val();
+				var kodepos = $("#kodepos").val();
+				var detail_alamat = document.getElementById('detail_alamat').value;
+				
+				
+				if(nama_alamat=='' || nama_penerima == '' || no_hp == '' || provinsi == '' || kabupaten == '' || kecamatan == '' || kodepos == '' || detail_alamat == '')
+				{
+					alert("Data belum lengkap");
+					return;
+				}
+				
+				
+				$("#btnSimpanAlamat").attr('disabled',true);
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/simpan_alamat/"
+					, data: "stat_edit="+stat_edit+
+							"&nama_alamat="+nama_alamat+
+							"&nama_penerima="+nama_penerima+
+							"&no_hp="+no_hp+
+							"&kode_negara="+kode_negara+
+							"&provinsi="+provinsi+
+							"&kabupaten="+kabupaten+
+							"&kecamatan="+kecamatan+
+							"&kodepos="+kodepos+
+							"&detail_alamat="+detail_alamat
+					, success:function(data)
+				{ 
+					//alert(data);
+					$("#btnSimpanAlamat").attr('disabled',false);
+					window.location.replace("<?=base_url();?>profile");
+				}
+				});
+			}
+			
+			function editAlamat(id)
+			{
+				$('input[name=stat_edit]').val($('#id_alamat_'+id).val());
+				$('input[name=nama_alamat]').val($('#nama_alamat_'+id).val());
+				$('input[name=nama_penerima]').val($('#nama_penerima_'+id).val());
+				$('input[name=no_hp]').val($('#no_hp_'+id).val());
+				$('input[name=kodepos]').val($('#kodepos_'+id).val());
+				document.getElementById("detail_alamat").value = $('#detail_alamat_'+id).val();
+				
+
+				document.getElementById("kabupaten").options.item(0).text = $('#nama_kabupaten_'+id).val();
+				document.getElementById("kabupaten").options.item(0).value = $('#id_kabupaten_'+id).val();
+				
+				document.getElementById("kecamatan").options.item(0).text = $('#nama_kecamatan_'+id).val();
+				document.getElementById("kecamatan").options.item(0).value = $('#id_kecamatan_'+id).val();
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/load_prov/"
+					, data: "id='id'"
+					, success:function(data)
+				{ 
+					if(data!='')
+					{
+						$("#provinsi").html(data);
+						
+						var x = $('#id_provinsi_'+id).val(); 
+						var len = document.getElementById("provinsi").options.length;
+						//alert(len);
+						
+						for(i=0; i<len;i++)
+						{
+							var ban = document.getElementById("provinsi").options.item(i).value;
+							//alert(ban);
+							if( ban == x)
+							{
+								//document.getElementById("provinsi").options.item(0).text = y;
+								document.getElementById("provinsi").selectedIndex = i;
+								break;
+							}
+						}
+					}
+				}
+				});
+
+				var id_prov = $('#id_provinsi_'+id).val();
+				//alert(id_prov);
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/load_kab/"
+					, data: "id_prov="+id_prov
+					, success:function(data)
+				{ 
+					if(data!='')
+					{
+						$("#kabupaten").html(data);
+						
+						var x2 = $('#id_kabupaten_'+id).val(); 
+						var len2 = document.getElementById("kabupaten").options.length;
+						//alert(len);
+						
+						for(j=0; j<len2;j++)
+						{
+							var ban2 = document.getElementById("kabupaten").options.item(j).value;
+							//alert(ban);
+							if( ban2 == x2)
+							{
+								//document.getElementById("provinsi").options.item(0).text = y;
+								document.getElementById("kabupaten").selectedIndex = j;
+								break;
+							}
+						}
+						
+					}
+				}
+				});
+				
+				var id_kab = $('#id_kabupaten_'+id).val();
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_profile/load_kec/"
+					, data: "id_kab="+id_kab
+					, success:function(data)
+				{ 
+					if(data!='')
+					{
+						
+						$("#kecamatan").html(data);
+						var x3 = $('#id_kecamatan_'+id).val(); 
+						var len3 = document.getElementById("kecamatan").options.length;
+						//alert(len);
+						
+						for(k=0; k<len3;k++)
+						{
+							var ban3 = document.getElementById("kecamatan").options.item(k).value;
+							//alert(ban);
+							if( ban3 == x3)
+							{
+								//document.getElementById("provinsi").options.item(0).text = y;
+								document.getElementById("kecamatan").selectedIndex = k;
+								break;
+							}
+						}
+					}
+				}
+				});
+				
+			}
+			
+			function isNumberKey(evt)
+			{
+				var charCode = (evt.which) ? evt.which : event.keyCode
+				if (charCode > 31 && (charCode < 48 || charCode > 57))
+				
+				return false;
+				return true;
+			}
+		
+		</script>
+		
+		<!-- JAVASCRIPT FILES -->
+		<script type="text/javascript">var plugin_path = '<?php echo base_url(); ?>assets/plugins/';</script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<!--<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/custom.fle_upload.js"></script>-->
+		
+		
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/scripts.js"></script>
+		
+		<!-- PAGE LEVEL SCRIPTS -->
+		<script type="text/javascript">
+			_toastr("Halaman Profile Anda","top-right","info",false);
+		</script>
+		<!-- STYLESWITCHER - REMOVE -->
+		<script async type="text/javascript" src="demo_files/styleswitcher/styleswitcher.js"></script>
+		
+	</body>
+</html>

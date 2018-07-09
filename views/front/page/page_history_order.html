@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ubur-ubur Game Store</title>
+		<meta name="description" content="" />
+		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
+
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+		<!-- WEB FONTS : use %7C instead of | (pipe) -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+		<!-- CORE CSS -->
+		<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		
+		<!-- THEME CSS -->
+		<link href="<?php echo base_url(); ?>assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/layout.css" rel="stylesheet" type="text/css" />
+
+		<!-- PAGE LEVEL SCRIPTS -->
+		<link href="<?php echo base_url(); ?>assets/css/header-1.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo base_url(); ?>assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+	</head>
+
+	<!--
+		AVAILABLE BODY CLASSES:
+		
+		smoothscroll 			= create a browser smooth scroll
+		enable-animation		= enable WOW animations
+
+		bg-grey					= grey background
+		grain-grey				= grey grain background
+		grain-blue				= blue grain background
+		grain-green				= green grain background
+		grain-blue				= blue grain background
+		grain-orange			= orange grain background
+		grain-yellow			= yellow grain background
+		
+		boxed 					= boxed layout
+		pattern1 ... patern11	= pattern background
+		menu-vertical-hide		= hidden, open on click
+		
+		BACKGROUND IMAGE [together with .boxed class]
+		data-background="<?php echo base_url(); ?>assets/images/_smarty/boxed_background/1.jpg"
+	-->
+	<body class="smoothscroll enable-animation">
+
+		<!-- wrapper -->
+		<div id="wrapper">
+			
+			
+			
+			<?php 
+				$this->load->view("/front/top-bar.html"); 
+			?>
+
+			
+			<?php 
+				$data = array('isCart'=>'0');
+				$this->load->view("/front/header.html",$data); 
+			?>
+
+			<!-- HEADER -->
+
+			
+			<section class="page-header page-header-xs">
+				<div class="container">
+
+					<!-- breadcrumbs -->
+					<ol class="breadcrumb breadcrumb-inverse">
+						<li><a href="<?php echo base_url(); ?>">Home</a></li>
+						<li><a href="#">History Order</a></li>
+						<!--<li class="active">Felicia Doe</li>-->
+					</ol><!-- /breadcrumbs -->
+
+				</div>
+			</section>
+			<!-- /PAGE HEADER -->
+
+
+
+
+			<!-- -->
+			<section>
+				<div class="container">
+				
+					
+					<!-- RIGHT -->
+					<div class="col-lg-9 col-md-9 col-sm-8 col-lg-push-3 col-md-push-3 col-sm-push-4 margin-bottom-80">
+						<ul class="nav nav-tabs nav-top-border">
+							<li class="active"><a href="#status" data-toggle="tab">Status Pemesanan</a></li>
+							<li><a href="#daftar" data-toggle="tab">Daftar Transaksi</a></li>
+						</ul>
+						
+						<div class="tab-content margin-top-20">
+							
+														
+							<!-- STATUS PEMESANAN TAB -->
+							<div class="tab-pane fade in active" id="status">
+								<!-- ITEM STATUS -->
+								<?php
+									if(!empty($h_status_pembelian))
+									{
+										$no=1;
+								?>
+								<div class="toggle toggle-transparent toggle-bordered-simple">
+								
+								<?php
+										$list_h = $h_status_pembelian->result();
+										foreach($list_h as $row)
+										{
+								?>
+								<?php
+									if($no==1)
+									{
+										echo '<div class="toggle active">';
+									} else {
+										echo '<div class="toggle">';
+									}
+								?>
+										<label>No. Faktur : <?php echo $row->no_faktur; ?></label>
+										<div class="toggle-content">
+											<p>Tanggal Transaksi : <?php echo $row->tgl_h_penjualan; ?>  | Rp. <?php echo $row->bayar; ?></p>
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th>Nama Produk</th>
+															<th>Deskripsi</th>
+															<th>Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php 
+															//if($no==1)
+															//{
+																if(!empty($list_d_pembelian))
+																{
+																	$list_d = $list_d_pembelian->result();
+																	foreach($list_d as $rowd)
+																	{
+																		if($row->id_h_penjualan==$rowd->id_h_penjualan)
+																		{
+														?>
+															<tr>
+																<td><?php echo $rowd->nama_produk; ?></td>
+																<td><?php echo $rowd->ket; ?></td>
+																<td><?php echo $rowd->total; ?></td>
+															</tr>
+														<?php
+																		}
+																	}
+																}
+															//}
+														?>
+													</tbody>	
+												</table>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													Alamat Tujuan : <br>
+													<strong><?php echo $row->nama_penerima; ?></strong><br>
+													<?php echo $row->detail_alamat; ?>
+													
+												</div>
+
+												<div class="col-md-6">
+													<p class="pull-right">Ongkos Kirim : Rp. <?php echo $row->biaya; ?></p>
+												</div>
+											</div>	
+											<div class="row">
+												<p class="pull-right"><strong>Total Pembayaran : Rp. <?php echo $row->bayar; ?></strong></p>
+											</div>
+											<div class="row">
+												<p>Status : <?php echo $row->sts_penjualan; ?></p>
+											</div>
+										</div>
+									</div>
+									<?php 
+											$no++;
+										} 
+									?>						
+								</div>
+								<?php
+									} else {
+										echo '<p>Tidak ada transaksi</p>';
+									}
+								?>
+																
+								<!-- ITEM STATUS -->
+							</div>
+							
+							<!-- DAFTAR Transaksi -->
+							<div class="tab-pane fade in" id="daftar">	
+
+								<div class="col-md-4 col-sm-4">
+									
+									<div class="fancy-form fancy-form-select">
+										<select class="form-control" id="status_transaksi" name="status_transaksi">
+											<option value="">Semua Status</option>
+											<option value="PROSES">Proses Verifikasi</option>
+											<option value="READY">Siap dikirim/diambil</option>
+											<option value="SELESAI">Transaksi Selesai</option>
+										</select>
+
+										<i class="fancy-arrow"></i>
+									</div>
+								</div>
+								
+								<div class="col-md-4 col-sm-4">
+									<input type="text" id="tgl" name="tgl" class="form-control rangepicker" value="2018-01-01 - 2018-01-31" data-format="yyyy-mm-dd" data-from="2018-01-01" data-to="2018-01-31">
+									
+									
+									<input type="hidden" id="tgl_from" name="tgl_from" placeholder="Tanggal Lahir" class="form-control datepicker" value="2017-12-01" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+								
+								
+									<input type="hidden" id="tgl_to" name="tgl_to" placeholder="Tanggal Lahir" class="form-control datepicker" value="2017-12-01" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+								
+								</div>
+								
+								<!--<div class="col-md-4 col-sm-4">
+									<input type="text" name="cari" value="" placeholder="Cari No.Invoice" class="form-control">
+								</div>-->
+
+								<div class="col-md-4 col-sm-4">
+									<div class="input-group">
+										<input type="text" id="cari" name="cari" class="form-control" placeholder="Cari No.Faktur">
+										<span class="input-group-btn">
+											<!--<button class="btn btn-success" type="submit">Cari</button>-->
+											<a href="#" onclick="cari_transaksi()" class="btn btn-success"><i class="fa fa-search"></i></a>
+										</span>
+									</div>
+								</div>
+								<!-- ISI KONTEN LIST TRANSAKSI -->
+								<div id="list_transaksi">
+									<div class="toggle toggle-transparent toggle-bordered-simple">
+										<div class="toggle active">
+											<label>No. Faktur : FKT20180100001</label>
+											<div class="toggle-content">	
+												<p>Tanggal Transaksi : 09 January 2018 | Rp. 60,000</p>	
+													<div class="table-responsive">	
+														<table class="table table-hover">		
+															<thead>			
+															<tr>				
+																<th>Nama Produk</th>					
+																<th>Deskripsi</th>					
+																<th>Total</th>			
+															</tr>		
+															</thead>		
+															<tbody>	
+															<tr>		
+																<td>TOPLES AK 500</td>		
+																<td>@6,000 x 1</td>		
+																<td>6,000</td>	
+															</tr>		
+															</tbody>	
+														</table>
+													</div>
+												<div class="row">	
+													<div class="col-md-6">		
+														Alamat Tujuan : <br>		<strong></strong><br>	
+													</div>	
+													<div class="col-md-6">		
+														<p class="pull-right">Ongkos Kirim : Rp. 0</p>	
+													</div>
+												</div>
+												<div class="row">	
+													<p class="pull-right"><strong>Total Pembayaran : Rp. 60,000</strong></p>
+												</div>
+												<div class="row">	
+													<p>Status : PROSES</p>
+												</div>
+											</div>
+										</div>
+										<div class="toggle">
+											<label>No. Faktur : FKT20171200006</label>
+											<div class="toggle-content">	
+												<p>Tanggal Transaksi : 28 December 2017 | Rp. 6,000</p>	
+												<div class="table-responsive">	
+													<table class="table table-hover">		
+														<thead>			
+														<tr>				
+															<th>Nama Produk</th>				
+															<th>Deskripsi</th>				
+															<th>Total</th>			
+														</tr>		
+														</thead>		
+														<tbody>	
+														<tr>		
+															<td>TOPLES AK 500</td>		
+															<td>@6,000 x 1</td>		
+															<td>6,000</td>	
+														</tr>		
+														</tbody>	
+													</table>
+												</div>
+												<div class="row">	
+													<div class="col-md-6">		
+														Alamat Tujuan : <br>		<strong></strong><br>	
+													</div>	
+													<div class="col-md-6">		
+														<p class="pull-right">Ongkos Kirim : Rp. 0</p>	
+													</div>
+												</div>
+												<div class="row">	
+													<p class="pull-right"><strong>Total Pembayaran : Rp. 6,000</strong></p>
+												</div>
+												<div class="row">	
+													<p>Status : PROSES</p>
+												</div>
+											</div>
+										</div>
+									</div>
+		
+								</div>
+							</div>
+							
+							
+						</div>
+						
+						
+					</div>
+					
+					<!-- LEFT -->
+					<div class="col-lg-3 col-md-3 col-sm-4 col-lg-pull-9 col-md-pull-9 col-sm-pull-8">
+						<?php
+							$src = base_url().'assets/images/member/'.$avatar;
+							
+						?>
+						<!--<div class="thumbnail text-center">
+							<img src="<?php echo $src; ?>" alt="" />
+							<h2 class="size-18 margin-top-10 margin-bottom-0"><?php echo $username; ?></h2>
+							<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted">Join Date : <?php echo $tgl_pengajuan; ?></h3>
+						</div>
+						-->
+						
+						<div class="thumbnail text-center">
+							<img src="<?php echo $src; ?>" alt="" />
+							<h2 class="size-18 margin-top-10 margin-bottom-0"><?php echo $username; ?></h2>
+							<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted">Join Date : <?php echo $tgl_pengajuan; ?></h3>
+							<h2 class="size-18 margin-top-10 margin-bottom-0">Saldo : Rp. 500.000,-</h2>
+							
+						</div>
+
+						<!-- completed -->
+						<!--<div class="margin-bottom-30">
+							<label>88% completed profile</label>
+							<div class="progress progress-xxs">
+								<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="width: 88%; min-width: 2em;"></div>
+							</div>
+						</div>
+						<!-- /completed -->
+
+						<!-- SIDE NAV -->
+						<ul class="side-nav list-group margin-bottom-60" id="sidebar-nav">
+							<li class="list-group-item"><a href="<?php echo base_url(); ?>profile"><i class="fa fa-eye"></i> PROFILE</a></li>
+							<li class="list-group-item active"><a href="#"><i class="fa fa-history"></i> HISTORY PEMESANAN</a></li>
+							<li class="list-group-item"><a href="<?php echo base_url(); ?>kelola-toko"><i class="fa fa-gears"></i> KELOLA TOKO</a></li>							
+
+							
+						</ul>
+						<!-- /SIDE NAV -->
+
+
+					</div>
+					
+					
+					
+				</div>
+			</section>
+			<!-- / -->
+
+
+			
+			<?php $this->load->view('/front/footer.html');  ?>
+
+			
+
+		</div>
+		<!-- /wrapper -->
+
+
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+		<!-- PRELOADER -->
+		<div id="preloader">
+			<div class="inner">
+				<span class="loader"></span>
+			</div>
+		</div><!-- /PRELOADER -->
+
+		
+		<script>
+			function isNumberKey(evt)
+			{
+				var charCode = (evt.which) ? evt.which : event.keyCode
+				if (charCode > 31 && (charCode < 48 || charCode > 57))
+				
+				return false;
+				return true;
+			}
+			
+			function cari_transaksi()
+			{
+				//alert($('#status_transaksi').val());
+				var status = document.getElementById("status_transaksi").value;
+				var rawTgl = $('#tgl').val();				
+				var rawTgl = rawTgl.split(" - ");
+				var cari = $('#cari').val();
+				
+				//alert(rawTgl[0]);			
+				
+				$.ajax({type: "POST", url: "<?=base_url();?>C_public_history_order/history_transaksi/"
+					, data: "status="+status+"&fromdate="+rawTgl[0]+"&todate="+rawTgl[1]+"&cari="+cari
+					, success:function(data)
+				{ 
+					//alert(data);
+					
+					$('#list_transaksi').html(data);
+				}
+				});
+				
+			}
+	
+		</script>
+		
+		<!-- JAVASCRIPT FILES -->
+		<script type="text/javascript">var plugin_path = '<?php echo base_url(); ?>assets/plugins/';</script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/app.js"></script>
+
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/scripts.js"></script>
+		
+	</body>
+</html>
